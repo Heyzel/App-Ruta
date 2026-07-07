@@ -1,0 +1,26 @@
+.tarjeta-tema {
+  display: block;
+  padding: 1.25rem;
+  border-radius: 12px;
+  background: var(--color-superficie, #1e1e2f);
+  border: 1px solid var(--color-borde, #33334d);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.tarjeta-tema:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-primario, #4f46e5);
+}
+
+.tarjeta-tema h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+}
+
+.tarjeta-tema p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}

@@ -1,0 +1,10 @@
+.pagina-quiz {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.quiz-ayuda {
+  opacity: 0.8;
+  margin-bottom: 1.5rem;
+}

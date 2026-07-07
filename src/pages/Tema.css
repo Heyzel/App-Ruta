@@ -1,0 +1,10 @@
+.pagina-tema {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.tema-descripcion {
+  opacity: 0.8;
+  margin-bottom: 1.5rem;
+}

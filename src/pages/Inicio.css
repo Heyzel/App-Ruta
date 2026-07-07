@@ -1,0 +1,24 @@
+.pagina-inicio {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.inicio-encabezado {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.inicio-encabezado h1 {
+  margin-bottom: 0.5rem;
+}
+
+.inicio-encabezado p {
+  opacity: 0.8;
+}
+
+.grilla-temas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}

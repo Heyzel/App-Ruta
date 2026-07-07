@@ -1,0 +1,21 @@
+.boton-inicio {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  border: none;
+  background: var(--color-primario, #4f46e5);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.boton-inicio:hover {
+  background: var(--color-primario-hover, #4338ca);
+  transform: translateY(-1px);
+}

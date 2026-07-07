@@ -1,0 +1,48 @@
+.selector-dificultad {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.nivel-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1.25rem;
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid var(--color-borde, #33334d);
+}
+
+.nivel-card h3 {
+  margin: 0;
+}
+
+.nivel-disponible {
+  background: var(--color-superficie, #1e1e2f);
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.nivel-disponible:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-primario, #4f46e5);
+}
+
+.nivel-bloqueado {
+  background: var(--color-superficie-bloqueada, #17171f);
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.candado {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.nota {
+  font-size: 0.85rem;
+  opacity: 0.85;
+}

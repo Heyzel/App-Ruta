@@ -1,0 +1,40 @@
+.feedback {
+  padding: 2rem;
+  border-radius: 16px;
+  text-align: center;
+  max-width: 560px;
+  margin: 2rem auto;
+}
+
+.feedback-aprobado {
+  background: var(--color-exito-suave, #123a24);
+  border: 1px solid var(--color-exito, #22c55e);
+}
+
+.feedback-reprobado {
+  background: var(--color-error-suave, #3a1212);
+  border: 1px solid var(--color-error, #ef4444);
+}
+
+.feedback h2 {
+  margin-top: 0;
+}
+
+.feedback-nota {
+  font-size: 1.05rem;
+}
+
+.feedback button {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  background: var(--color-primario, #4f46e5);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.feedback button:hover {
+  background: var(--color-primario-hover, #4338ca);
+}
