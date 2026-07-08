@@ -17,6 +17,21 @@
   opacity: 0.8;
 }
 
+.inicio-usuario {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.enlace-cambiar-nombre {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--color-primario, #4f46e5);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: inherit;
+}
+
 .grilla-temas {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));

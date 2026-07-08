@@ -1,0 +1,106 @@
+.editor-pregunta {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 1px dashed var(--color-borde, #33334d);
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.editor-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.editor-campo input,
+.editor-campo select {
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-borde, #33334d);
+  background: var(--color-fondo, #101018);
+  color: inherit;
+  font-weight: normal;
+  font-size: 1rem;
+}
+
+.editor-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.editor-lista > span {
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0.8;
+  margin-top: 0.5rem;
+}
+
+.editor-lista-fila {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.editor-lista-fila input[type='text'],
+.editor-lista-fila input[type='number'] {
+  flex: 1;
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-borde, #33334d);
+  background: var(--color-fondo, #101018);
+  color: inherit;
+}
+
+.editor-lista-fila select {
+  padding: 0.5rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-borde, #33334d);
+  background: var(--color-fondo, #101018);
+  color: inherit;
+}
+
+.editor-lista-fila button {
+  border: none;
+  background: var(--color-error-suave, #3a1212);
+  color: var(--color-error, #ef4444);
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+}
+
+.editor-pareo-etiqueta {
+  min-width: 160px;
+}
+
+.editor-boton-agregar {
+  align-self: flex-start;
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-borde, #33334d);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.editor-boton-principal {
+  align-self: flex-start;
+  padding: 0.65rem 1.3rem;
+  border-radius: 8px;
+  border: none;
+  background: var(--color-primario, #4f46e5);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.editor-boton-principal:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
