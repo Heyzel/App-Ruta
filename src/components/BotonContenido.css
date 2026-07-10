@@ -16,6 +16,17 @@
   border-color: var(--color-primario, #4f46e5);
 }
 
+.boton-contenido-tipo {
+  align-self: flex-start;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: var(--color-acento-suave, #2a2a45);
+  color: var(--color-texto-suave, #c7c7e0);
+  margin-bottom: 0.15rem;
+}
+
 .boton-contenido-nombre {
   font-weight: 600;
 }

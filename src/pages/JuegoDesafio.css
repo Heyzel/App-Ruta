@@ -1,0 +1,67 @@
+.pagina-juego {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.juego-volver {
+  display: inline-block;
+  margin-bottom: 1.25rem;
+  color: var(--color-primario, #4f46e5);
+  text-decoration: none;
+}
+
+.juego-etiqueta {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background: var(--color-acento-suave, #2a2a45);
+  color: var(--color-texto-suave, #c7c7e0);
+  margin-bottom: 0.75rem;
+}
+
+.juego-titulo {
+  margin: 0 0 1.5rem;
+}
+
+.juego-tarjeta {
+  padding: 1.5rem 1.75rem;
+  border-radius: 12px;
+  background: var(--color-superficie, #1e1e2f);
+  border: 1px solid var(--color-borde, #33334d);
+  margin-bottom: 2rem;
+}
+
+.juego-tarjeta h2 {
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+
+.juego-descripcion {
+  line-height: 1.65;
+  opacity: 0.9;
+}
+
+.juego-descripcion:last-child {
+  margin-bottom: 0;
+}
+
+.juego-comenzar {
+  display: inline-block;
+  padding: 0.9rem 2rem;
+  border-radius: 10px;
+  background: var(--color-primario, #4f46e5);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.05rem;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.juego-comenzar:hover {
+  background: var(--color-primario-hover, #4338ca);
+  transform: translateY(-2px);
+}

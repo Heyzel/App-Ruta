@@ -18,7 +18,7 @@ function estadoVacioPorTipo(tipo) {
     case 'verdadero-falso':
       return { enunciado: '', respuestaCorrecta: true };
     case 'numerica':
-      return { enunciado: '', respuestaCorrecta: 0, tolerancia: 0 };
+      return { enunciado: '', codigo: '', respuestaCorrecta: 0, tolerancia: 0 };
     case 'pareo':
       return { enunciado: '', izquierda: ['', ''], derecha: ['', ''], correspondencias: [0, 1] };
     default:
@@ -178,6 +178,16 @@ export function EditorPregunta({ onAgregar }) {
 
       {tipo === 'numerica' && (
         <div className="editor-lista">
+          <label className="editor-campo">
+            Fragmento de código (opcional)
+            <textarea
+              className="editor-textarea-codigo"
+              value={datos.codigo}
+              onChange={(e) => setDatos((prev) => ({ ...prev, codigo: e.target.value }))}
+              placeholder={'int a = 3;\nint b = 4;\nint resultado = a * b + 2;'}
+              rows={4}
+            />
+          </label>
           <label className="editor-campo">
             Respuesta correcta
             <input

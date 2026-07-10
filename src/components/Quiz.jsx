@@ -58,6 +58,11 @@ export function Quiz({ quiz, onEnviar }) {
             <legend>
               {indicePregunta + 1}. {pregunta.enunciado}
             </legend>
+            {pregunta.codigo && (
+              <pre className="quiz-codigo">
+                <code>{pregunta.codigo}</code>
+              </pre>
+            )}
             <ComponentePregunta
               pregunta={pregunta}
               valor={respuestas[indicePregunta]}

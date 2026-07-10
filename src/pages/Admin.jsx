@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TEMAS, DIFICULTADES, NOMBRE_DIFICULTAD } from '../data/temas';
 import { listarCuestionarios } from '../services/cuestionarios';
+import { listarContenidos } from '../services/contenidos';
 import { listarResultados } from '../services/resultados';
 import { estaAutenticado, autenticar, cerrarSesionAdmin } from '../utils/adminAuth';
 import { supabaseConfigurado } from '../lib/supabase';
@@ -45,17 +46,21 @@ export function Admin() {
   const [autenticado, setAutenticado] = useState(estaAutenticado());
   const [pestana, setPestana] = useState('cuestionarios');
   const [cuestionarios, setCuestionarios] = useState([]);
+  const [contenidos, setContenidos] = useState([]);
   const [resultados, setResultados] = useState([]);
   const [cargando, setCargando] = useState(false);
 
   useEffect(() => {
     if (!autenticado) return;
     setCargando(true);
-    Promise.all([listarCuestionarios(), listarResultados()]).then(([resCuest, resResult]) => {
-      setCuestionarios(resCuest.data || []);
-      setResultados(resResult.data || []);
-      setCargando(false);
-    });
+    Promise.all([listarCuestionarios(), listarContenidos(), listarResultados()]).then(
+      ([resCuest, resContenidos, resResult]) => {
+        setCuestionarios(resCuest.data || []);
+        setContenidos(resContenidos.data || []);
+        setResultados(resResult.data || []);
+        setCargando(false);
+      }
+    );
   }, [autenticado]);
 
   if (!autenticado) {
@@ -64,6 +69,10 @@ export function Admin() {
 
   function existeCuestionario(temaId, dificultad) {
     return cuestionarios.find((c) => c.tema === temaId && c.dificultad === dificultad);
+  }
+
+  function existeContenido(temaId, dificultad) {
+    return contenidos.find((c) => c.tema === temaId && c.dificultad === dificultad);
   }
 
   return (
@@ -95,6 +104,12 @@ export function Admin() {
         >
           Cuestionarios
         </button>
+        <button
+          className={pestana === 'contenidos' ? 'activa' : ''}
+          onClick={() => setPestana('contenidos')}
+        >
+          Contenidos
+        </button>
         <button className={pestana === 'resultados' ? 'activa' : ''} onClick={() => setPestana('resultados')}>
           Resultados
         </button>
@@ -124,6 +139,38 @@ export function Admin() {
                     <td>
                       <Link to={`/admin/cuestionario/${tema.id}/${dificultad}`}>
                         {cuestionario ? 'Editar' : 'Crear'}
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })
+            )}
+          </tbody>
+        </table>
+      )}
+
+      {!cargando && pestana === 'contenidos' && (
+        <table className="admin-tabla">
+          <thead>
+            <tr>
+              <th>Tema</th>
+              <th>Dificultad</th>
+              <th>Estado</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {TEMAS.flatMap((tema) =>
+              DIFICULTADES.map((dificultad) => {
+                const contenido = existeContenido(tema.id, dificultad);
+                return (
+                  <tr key={`${tema.id}-${dificultad}`}>
+                    <td>{tema.nombre}</td>
+                    <td>{NOMBRE_DIFICULTAD[dificultad]}</td>
+                    <td>{contenido ? `${contenido.items.length} contenidos` : 'Sin crear (usa JSON local)'}</td>
+                    <td>
+                      <Link to={`/admin/contenido/${tema.id}/${dificultad}`}>
+                        {contenido ? 'Editar' : 'Crear'}
                       </Link>
                     </td>
                   </tr>

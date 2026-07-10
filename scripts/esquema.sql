@@ -39,3 +39,25 @@ create policy "leer_resultados" on resultados for select using (true);
 
 drop policy if exists "insertar_resultados" on resultados;
 create policy "insertar_resultados" on resultados for insert with check (true);
+
+-- Permite el borrado de resultados (usado por scripts/limpiarBaseDatos.mjs con la clave anónima).
+-- En producción real convendría restringir el borrado a usuarios autenticados.
+drop policy if exists "borrar_resultados" on resultados;
+create policy "borrar_resultados" on resultados for delete using (true);
+
+create table if not exists contenidos (
+  id uuid primary key default gen_random_uuid(),
+  tema text not null,
+  dificultad text not null,
+  items jsonb not null default '[]'::jsonb,
+  creado_en timestamptz default now(),
+  unique (tema, dificultad)
+);
+
+alter table contenidos enable row level security;
+
+drop policy if exists "leer_contenidos" on contenidos;
+create policy "leer_contenidos" on contenidos for select using (true);
+
+drop policy if exists "escribir_contenidos" on contenidos;
+create policy "escribir_contenidos" on contenidos for all using (true) with check (true);
