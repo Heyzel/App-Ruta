@@ -1,14 +1,15 @@
 import { NOMBRE_DIFICULTAD } from '../data/temas';
 import './Feedback.css';
 
-export function Feedback({ tema, dificultad, resultado, siguiente, onIrSiguienteNivel, onVolverContenidos }) {
+export function Feedback({ tema, dificultad, resultado, siguiente, nombre, onIrSiguienteNivel, onVolverContenidos }) {
   const { nota, aprobado, correctas, total } = resultado;
 
   return (
     <div className={`feedback ${aprobado ? 'feedback-aprobado' : 'feedback-reprobado'}`}>
       <h2>{aprobado ? '¡Felicidades!' : 'Sigue practicando'}</h2>
       <p className="feedback-nota">
-        Obtuviste <strong>{nota}/20</strong> ({correctas} de {total} correctas) en{' '}
+        {nombre ? `${nombre}, obtuviste` : 'Obtuviste'} <strong>{nota}/20</strong> ({correctas} de {total}{' '}
+        correctas) en{' '}
         <strong>
           {tema.nombre} · {NOMBRE_DIFICULTAD[dificultad]}
         </strong>

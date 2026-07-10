@@ -7,7 +7,7 @@ import './Resultado.css';
 export function Resultado() {
   const { temaId, dificultad } = useParams();
   const tema = obtenerTema(temaId);
-  const { obtenerResultado } = useProgreso();
+  const { progreso, obtenerResultado } = useProgreso();
   const navigate = useNavigate();
 
   if (!tema || !DIFICULTADES.includes(dificultad)) {
@@ -34,6 +34,7 @@ export function Resultado() {
         dificultad={dificultad}
         resultado={resultado}
         siguiente={siguiente}
+        nombre={progreso.nombreUsuario}
         onIrSiguienteNivel={() => navigate(`/tema/${temaId}/${siguiente}`)}
         onVolverContenidos={() => navigate(`/tema/${temaId}/${dificultad}`)}
       />

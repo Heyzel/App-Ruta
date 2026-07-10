@@ -1,0 +1,110 @@
+.pagina-admin {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.admin-login {
+  max-width: 340px;
+  margin: 4rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 2rem;
+  border-radius: 14px;
+  background: var(--color-superficie, #1e1e2f);
+  border: 1px solid var(--color-borde, #33334d);
+}
+
+.admin-login h1 {
+  font-size: 1.3rem;
+  margin: 0 0 0.5rem;
+}
+
+.admin-login input {
+  padding: 0.7rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-borde, #33334d);
+  background: var(--color-fondo, #101018);
+  color: inherit;
+}
+
+.admin-login button {
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  border: none;
+  background: var(--color-primario, #4f46e5);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-error {
+  color: var(--color-error, #ef4444);
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.admin-encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.admin-cerrar-sesion {
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-borde, #33334d);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.admin-aviso {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  background: var(--color-error-suave, #3a1212);
+  border: 1px solid var(--color-error, #ef4444);
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.admin-tabs button {
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-borde, #33334d);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.admin-tabs button.activa {
+  background: var(--color-primario, #4f46e5);
+  border-color: var(--color-primario, #4f46e5);
+  color: #fff;
+}
+
+.admin-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.admin-tabla th,
+.admin-tabla td {
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--color-borde, #33334d);
+}
+
+.admin-tabla a {
+  color: var(--color-primario, #4f46e5);
+  text-decoration: underline;
+}

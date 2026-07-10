@@ -1,16 +1,46 @@
-# React + Vite
+# Cartelera de Contenido Educativo
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Aplicación web para aprender programación en **C++** por temas y niveles de dificultad. El
+estudiante navega por temas, revisa contenidos (recursos externos organizados por tipo) y
+responde cuestionarios para avanzar de nivel. Incluye un **panel de administrador** para editar
+contenidos y cuestionarios, y un **chatbot de IA** (Zapier) como asistente.
 
-Currently, two official plugins are available:
+## Características
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **8 temas** × 3 niveles (principiante, intermedio, avanzado).
+- **Contenidos** enlazados a recursos externos, etiquetados por tipo (video 🎬, lectura 📖,
+  artículo 📰, guía 🧭, etc.).
+- **Cuestionarios en C++** con 5 tipos de pregunta: selección simple, selección múltiple,
+  verdadero/falso, respuesta numérica (con fragmentos de código) y pareo.
+- **Progreso persistente** en el navegador (localStorage) para retomar donde se dejó.
+- **Panel de administrador** (`/admin`) para crear/editar contenidos y cuestionarios.
+- **Chatbot de IA** en panel lateral colapsable (integración con Zapier Chatbots).
+- Backend con **Supabase**, con fallback automático a datos locales si no está configurado.
 
-## React Compiler
+## Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React + Vite + React Router
+- Supabase (PostgreSQL + API REST)
+- CSS plano
 
-## Expanding the Oxlint configuration
+## Desarrollo local
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+```bash
+npm install
+cp .env.example .env   # completa las variables (ver DESPLIEGUE.md)
+npm run dev
+```
+
+Scripts útiles:
+
+| Script | Descripción |
+|---|---|
+| `npm run dev` | Servidor de desarrollo |
+| `npm run build` | Build de producción en `dist/` |
+| `npm run preview` | Sirve el build de producción |
+| `npm run seed` | Siembra cuestionarios y contenidos en Supabase |
+| `npm run db:limpiar` | Vacía la tabla de resultados |
+
+## Despliegue
+
+Consulta la guía completa en [DESPLIEGUE.md](DESPLIEGUE.md).

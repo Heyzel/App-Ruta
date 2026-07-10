@@ -1,0 +1,107 @@
+.pagina-admin-editor {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.admin-editor-volver {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: var(--color-primario, #4f46e5);
+  text-decoration: none;
+}
+
+.admin-editor-umbral {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-width: 260px;
+  margin: 1rem 0 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.admin-editor-umbral input {
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-borde, #33334d);
+  background: var(--color-fondo, #101018);
+  color: inherit;
+}
+
+.admin-lista-preguntas {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.admin-lista-preguntas li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  background: var(--color-superficie, #1e1e2f);
+  border: 1px solid var(--color-borde, #33334d);
+}
+
+.admin-lista-vacia {
+  opacity: 0.7;
+  font-style: italic;
+}
+
+.admin-pregunta-tipo {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  background: var(--color-acento-suave, #2a2a45);
+  white-space: nowrap;
+}
+
+.admin-pregunta-enunciado {
+  flex: 1;
+}
+
+.admin-lista-preguntas button {
+  border: none;
+  background: var(--color-error-suave, #3a1212);
+  color: var(--color-error, #ef4444);
+  border-radius: 6px;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.admin-mensaje {
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.admin-mensaje-exito {
+  background: var(--color-exito-suave, #123a24);
+  border: 1px solid var(--color-exito, #22c55e);
+}
+
+.admin-mensaje-error {
+  background: var(--color-error-suave, #3a1212);
+  border: 1px solid var(--color-error, #ef4444);
+}
+
+.admin-boton-guardar {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  background: var(--color-primario, #4f46e5);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-boton-guardar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

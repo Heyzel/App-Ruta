@@ -13,6 +13,7 @@ function estadoInicial() {
     nivelesDesbloqueados,
     resultadosQuiz: {},
     ultimaUbicacion: null,
+    nombreUsuario: '',
   };
 }
 
@@ -75,6 +76,13 @@ export function ProgresoProvider({ children }) {
     [setProgreso]
   );
 
+  const setNombreUsuario = useCallback(
+    (nombre) => {
+      setProgreso((prev) => ({ ...prev, nombreUsuario: nombre.trim() }));
+    },
+    [setProgreso]
+  );
+
   const value = useMemo(
     () => ({
       progreso,
@@ -82,8 +90,16 @@ export function ProgresoProvider({ children }) {
       obtenerResultado,
       registrarResultado,
       actualizarUbicacion,
+      setNombreUsuario,
     }),
-    [progreso, estaDesbloqueado, obtenerResultado, registrarResultado, actualizarUbicacion]
+    [
+      progreso,
+      estaDesbloqueado,
+      obtenerResultado,
+      registrarResultado,
+      actualizarUbicacion,
+      setNombreUsuario,
+    ]
   );
 
   return <ProgresoContext.Provider value={value}>{children}</ProgresoContext.Provider>;

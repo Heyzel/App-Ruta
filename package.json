@@ -7,9 +7,14 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "seed:cuestionarios": "node scripts/seedCuestionarios.mjs",
+    "seed:contenidos": "node scripts/seedContenidos.mjs",
+    "seed": "npm run seed:cuestionarios && npm run seed:contenidos",
+    "db:limpiar": "node scripts/limpiarBaseDatos.mjs"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.110.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-router-dom": "^7.18.1"
