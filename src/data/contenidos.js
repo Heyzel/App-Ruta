@@ -1,6 +1,25 @@
 // Contenidos por tema y dificultad. Cada ítem es un botón-link a un recurso externo.
 // El campo `tipo` corresponde a una clave de TIPOS_CONTENIDO (ver src/data/tiposContenido.js).
 export const CONTENIDOS = {
+  // Tema 0: Propedéutico de aritmética (repaso de primaria y secundaria).
+  'propedeutico-aritmetica': {
+    principiante: [
+      { nombre: 'Suma y resta', descripcion: 'Repaso de la suma y la resta de números naturales.', url: 'https://es.khanacademy.org/math/arithmetic/arith-review-add-subtract', tipo: 'documentacion' },
+      { nombre: 'Multiplicación', descripcion: 'Concepto y tablas de multiplicar.', url: 'https://es.khanacademy.org/math/arithmetic/arith-review-multiply-divide', tipo: 'documentacion' },
+      { nombre: 'División con residuo', descripcion: 'Cómo dividir y qué significa el residuo.', url: 'https://www.disfrutalasmatematicas.com/numeros/division.html', tipo: 'guia' },
+    ],
+    intermedio: [
+      { nombre: 'Fracciones', descripcion: 'Qué es una fracción y fracciones equivalentes.', url: 'https://es.khanacademy.org/math/arithmetic/fraction-arithmetic', tipo: 'documentacion' },
+      { nombre: 'Porcentajes', descripcion: 'Cálculo de porcentajes de un número.', url: 'https://www.disfrutalasmatematicas.com/numeros/porcentajes-menu.html', tipo: 'guia' },
+      { nombre: 'Jerarquía de operaciones', descripcion: 'Orden en que se resuelven las operaciones combinadas.', url: 'https://es.khanacademy.org/math/arithmetic/arith-review-order-of-operations', tipo: 'documentacion' },
+    ],
+    avanzado: [
+      { nombre: 'Potencias y raíces', descripcion: 'Exponentes, potencias y raíz cuadrada.', url: 'https://www.disfrutalasmatematicas.com/algebra/exponentes.html', tipo: 'guia' },
+      { nombre: 'MCD y mcm', descripcion: 'Máximo común divisor y mínimo común múltiplo.', url: 'https://www.disfrutalasmatematicas.com/numeros/minimo-comun-multiplo.html', tipo: 'guia' },
+      { nombre: 'Proporciones y regla de tres', descripcion: 'Razones, proporciones y regla de tres simple.', url: 'https://es.khanacademy.org/math/arithmetic/arith-review-ratios-proportions', tipo: 'documentacion' },
+    ],
+  },
+
   variables: {
     principiante: [
       { nombre: '¿Qué es una variable?', descripcion: 'Introducción al concepto de variable en programación.', url: 'https://www.freecodecamp.org/news/variables-in-programming/', tipo: 'articulo' },

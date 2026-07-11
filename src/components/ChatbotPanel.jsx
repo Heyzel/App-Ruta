@@ -23,19 +23,19 @@ export function ChatbotPanel() {
       <button
         className="chatbot-burbuja"
         onClick={() => setAbierto((prev) => !prev)}
-        aria-label={abierto ? 'Cerrar asistente' : 'Abrir asistente'}
+        aria-label={abierto ? 'Cerrar a Algorimi' : 'Abrir a Algorimi'}
       >
         {abierto ? '✕' : '💬'}
       </button>
 
       {abierto && (
-        <div className="chatbot-panel" role="dialog" aria-label="Asistente de IA">
+        <div className="chatbot-panel" role="dialog" aria-label="Algorimi, asistente de IA">
           <header className="chatbot-panel-encabezado">
-            <span>Asistente</span>
+            <span>Algorimi</span>
             <button
               className="chatbot-panel-cerrar"
               onClick={() => setAbierto(false)}
-              aria-label="Cerrar asistente"
+              aria-label="Cerrar a Algorimi"
             >
               ✕
             </button>

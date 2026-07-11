@@ -5,6 +5,56 @@
 //   intermedio  (10): 2 verdadero-falso, 3 selección-simple, 3 selección-múltiple, 2 pareo
 //   avanzado    (10): 2 verdadero-falso, 2 selección-simple, 2 selección-múltiple, 2 pareo, 2 numérica (con código)
 export const QUIZZES = {
+  // Tema 0: Propedéutico de aritmética. Cuestionarios de práctica SIN umbral de
+  // aprobación (umbralAprobacion se ignora: ver esTemaSinUmbral en temas.js).
+  'propedeutico-aritmetica': {
+    principiante: {
+      umbralAprobacion: 0,
+      preguntas: [
+        { tipo: 'verdadero-falso', enunciado: 'La suma es una operación conmutativa: 3 + 5 da el mismo resultado que 5 + 3.', respuestaCorrecta: true },
+        { tipo: 'verdadero-falso', enunciado: 'En la resta, el orden de los números no altera el resultado (8 - 3 es igual a 3 - 8).', respuestaCorrecta: false },
+        { tipo: 'verdadero-falso', enunciado: 'Cualquier número multiplicado por 0 da como resultado 0.', respuestaCorrecta: true },
+        { tipo: 'seleccion-simple', enunciado: '¿Cuánto es 7 × 8?', opciones: ['54', '56', '64', '48'], respuestaCorrecta: 1 },
+        { tipo: 'seleccion-simple', enunciado: '¿Cuál es el resultado de 144 ÷ 12?', opciones: ['11', '12', '14', '13'], respuestaCorrecta: 1 },
+        { tipo: 'seleccion-simple', enunciado: 'En la división 20 ÷ 3, ¿cuál es el residuo?', opciones: ['0', '1', '2', '3'], respuestaCorrecta: 2 },
+        { tipo: 'seleccion-multiple', enunciado: '¿Cuáles de las siguientes operaciones dan como resultado 24?', opciones: ['4 × 6', '3 × 8', '20 + 5', '48 ÷ 2'], respuestasCorrectas: [0, 1, 3] },
+        { tipo: 'seleccion-multiple', enunciado: '¿Cuáles de los siguientes números son pares?', opciones: ['12', '17', '30', '8'], respuestasCorrectas: [0, 2, 3] },
+        { tipo: 'numerica', enunciado: '¿Cuánto es 156 + 289?', respuestaCorrecta: 445, tolerancia: 0 },
+        { tipo: 'numerica', enunciado: '¿Cuánto es 63 - 27?', respuestaCorrecta: 36, tolerancia: 0 },
+      ],
+    },
+    intermedio: {
+      umbralAprobacion: 0,
+      preguntas: [
+        { tipo: 'verdadero-falso', enunciado: 'La fracción 1/2 es equivalente a 2/4.', respuestaCorrecta: true },
+        { tipo: 'verdadero-falso', enunciado: 'El 50% de un número es lo mismo que dividirlo entre 2.', respuestaCorrecta: true },
+        { tipo: 'verdadero-falso', enunciado: 'En la jerarquía de operaciones, la suma se resuelve antes que la multiplicación.', respuestaCorrecta: false },
+        { tipo: 'seleccion-simple', enunciado: '¿Cuál es el resultado de 2 + 3 × 4 (respetando la jerarquía de operaciones)?', opciones: ['20', '14', '24', '11'], respuestaCorrecta: 1 },
+        { tipo: 'seleccion-simple', enunciado: '¿Cuánto es el 25% de 80?', opciones: ['16', '20', '25', '40'], respuestaCorrecta: 1 },
+        { tipo: 'seleccion-simple', enunciado: '¿Cuál es el resultado de 3/4 + 1/4?', opciones: ['1', '4/8', '1/2', '4/4 = 2'], respuestaCorrecta: 0 },
+        { tipo: 'seleccion-simple', enunciado: 'Al convertir 0.75 a fracción irreducible se obtiene:', opciones: ['3/4', '7/5', '75/10', '1/4'], respuestaCorrecta: 0 },
+        { tipo: 'seleccion-multiple', enunciado: '¿Cuáles de las siguientes fracciones son equivalentes a 1/2?', opciones: ['2/4', '3/6', '5/9', '50/100'], respuestasCorrectas: [0, 1, 3] },
+        { tipo: 'pareo', enunciado: 'Empareja cada fracción con su equivalente decimal.', izquierda: ['1/2', '1/4', '3/4'], derecha: ['0.5', '0.25', '0.75'], correspondencias: [0, 1, 2] },
+        { tipo: 'numerica', enunciado: 'Calcula el resultado de 6 + 4 × 5 - 2 (respeta la jerarquía de operaciones).', respuestaCorrecta: 24, tolerancia: 0 },
+      ],
+    },
+    avanzado: {
+      umbralAprobacion: 0,
+      preguntas: [
+        { tipo: 'verdadero-falso', enunciado: 'La raíz cuadrada de 81 es 9.', respuestaCorrecta: true },
+        { tipo: 'verdadero-falso', enunciado: 'Elevar un número a la potencia 0 (con base distinta de 0) siempre da 1.', respuestaCorrecta: true },
+        { tipo: 'verdadero-falso', enunciado: 'El máximo común divisor (MCD) de 12 y 18 es 36.', respuestaCorrecta: false },
+        { tipo: 'seleccion-simple', enunciado: '¿Cuál es el valor de 2⁵ (2 elevado a la 5)?', opciones: ['10', '25', '32', '16'], respuestaCorrecta: 2 },
+        { tipo: 'seleccion-simple', enunciado: 'Si 3 lápices cuestan $12, ¿cuánto cuestan 5 lápices (regla de tres)?', opciones: ['$18', '$20', '$15', '$24'], respuestaCorrecta: 1 },
+        { tipo: 'seleccion-simple', enunciado: '¿Cuál es el mínimo común múltiplo (mcm) de 4 y 6?', opciones: ['24', '12', '10', '6'], respuestaCorrecta: 1 },
+        { tipo: 'seleccion-multiple', enunciado: '¿Cuáles de los siguientes son números primos?', opciones: ['7', '9', '13', '21'], respuestasCorrectas: [0, 2] },
+        { tipo: 'pareo', enunciado: 'Empareja cada expresión con su resultado.', izquierda: ['3²', '√49', '10³'], derecha: ['9', '7', '1000'], correspondencias: [0, 1, 2] },
+        { tipo: 'numerica', enunciado: 'Calcula el valor de 4² + √25 (cuatro al cuadrado más la raíz cuadrada de 25).', respuestaCorrecta: 21, tolerancia: 0 },
+        { tipo: 'numerica', enunciado: '¿Cuál es el máximo común divisor (MCD) de 24 y 36?', respuestaCorrecta: 12, tolerancia: 0 },
+      ],
+    },
+  },
+
   variables: {
     principiante: {
       umbralAprobacion: 15,

@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { BotonInicio } from './components/BotonInicio';
 import { ChatbotPanel } from './components/ChatbotPanel';
+import { Bienvenida } from './pages/Bienvenida';
 import { Inicio } from './pages/Inicio';
 import { Tema } from './pages/Tema';
 import { Contenidos } from './pages/Contenidos';
@@ -17,7 +18,8 @@ function App() {
       <BotonInicio />
       <ChatbotPanel />
       <Routes>
-        <Route path="/" element={<Inicio />} />
+        <Route path="/" element={<Bienvenida />} />
+        <Route path="/temas" element={<Inicio />} />
         <Route path="/tema/:temaId" element={<Tema />} />
         <Route path="/tema/:temaId/:dificultad" element={<Contenidos />} />
         <Route path="/tema/:temaId/:dificultad/juego/:indice" element={<JuegoDesafio />} />

@@ -1,5 +1,15 @@
 export const TEMAS = [
   {
+    id: 'propedeutico-aritmetica',
+    nombre: 'Propedéutico de aritmética',
+    descripcion:
+      'Repaso de aritmética de educación primaria y secundaria: operaciones, fracciones, potencias y más. Tema 0 opcional para reforzar las bases antes de programar.',
+    // Tema 0: los tres niveles están desbloqueados desde el inicio y los
+    // cuestionarios no tienen umbral de aprobación (son de práctica).
+    desbloqueadoCompleto: true,
+    sinUmbral: true,
+  },
+  {
     id: 'variables',
     nombre: 'Variables',
     descripcion: 'Declaración, asignación y ámbito de variables en programación.',
@@ -51,6 +61,17 @@ export const NOMBRE_DIFICULTAD = {
 
 export function obtenerTema(temaId) {
   return TEMAS.find((tema) => tema.id === temaId);
+}
+
+// Indica si un tema debe tener todos sus niveles desbloqueados desde el inicio.
+export function esTemaDesbloqueadoCompleto(temaId) {
+  return Boolean(obtenerTema(temaId)?.desbloqueadoCompleto);
+}
+
+// Indica si los cuestionarios de un tema no tienen umbral de aprobación
+// (se aprueban siempre; sirven solo como práctica).
+export function esTemaSinUmbral(temaId) {
+  return Boolean(obtenerTema(temaId)?.sinUmbral);
 }
 
 export function siguienteDificultad(dificultad) {

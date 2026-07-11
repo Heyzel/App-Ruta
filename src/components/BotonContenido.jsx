@@ -1,9 +1,22 @@
 import { Link } from 'react-router-dom';
 import { obtenerTipoContenido } from '../data/tiposContenido';
+import { useProgreso } from '../context/ProgresoContext';
+import { registrarConsultaContenido } from '../services/metricas';
 import './BotonContenido.css';
 
 export function BotonContenido({ contenido, temaId, dificultad, indice }) {
   const info = obtenerTipoContenido(contenido.tipo);
+  const { progreso } = useProgreso();
+
+  function registrarConsulta() {
+    registrarConsultaContenido({
+      nombre: progreso.nombreUsuario,
+      tema: temaId,
+      dificultad,
+      contenido: contenido.nombre,
+      tipo: contenido.tipo,
+    });
+  }
 
   const cuerpo = (
     <>
@@ -19,14 +32,24 @@ export function BotonContenido({ contenido, temaId, dificultad, indice }) {
   // el resto abre el recurso externo directamente.
   if (contenido.tipo === 'juego') {
     return (
-      <Link className="boton-contenido" to={`/tema/${temaId}/${dificultad}/juego/${indice}`}>
+      <Link
+        className="boton-contenido"
+        to={`/tema/${temaId}/${dificultad}/juego/${indice}`}
+        onClick={registrarConsulta}
+      >
         {cuerpo}
       </Link>
     );
   }
 
   return (
-    <a className="boton-contenido" href={contenido.url} target="_blank" rel="noopener noreferrer">
+    <a
+      className="boton-contenido"
+      href={contenido.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={registrarConsulta}
+    >
       {cuerpo}
     </a>
   );
