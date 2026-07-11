@@ -1,13 +1,15 @@
 import { createContext, useCallback, useContext, useMemo } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
-import { TEMAS, siguienteDificultad } from '../data/temas';
+import { TEMAS, DIFICULTADES, siguienteDificultad, esTemaDesbloqueadoCompleto } from '../data/temas';
 
 const CLAVE_PROGRESO = 'progreso-app-tesis';
 
 function estadoInicial() {
   const nivelesDesbloqueados = {};
   TEMAS.forEach((tema) => {
-    nivelesDesbloqueados[tema.id] = ['principiante'];
+    nivelesDesbloqueados[tema.id] = tema.desbloqueadoCompleto
+      ? [...DIFICULTADES]
+      : ['principiante'];
   });
   return {
     nivelesDesbloqueados,
@@ -24,6 +26,10 @@ export function ProgresoProvider({ children }) {
 
   const estaDesbloqueado = useCallback(
     (temaId, dificultad) => {
+      // Los temas marcados como desbloqueados por completo (p. ej. el tema 0)
+      // siempre están disponibles, incluso para progresos guardados antes de
+      // que el tema existiera en localStorage.
+      if (esTemaDesbloqueadoCompleto(temaId)) return true;
       const niveles = progreso.nivelesDesbloqueados[temaId] || ['principiante'];
       return niveles.includes(dificultad);
     },

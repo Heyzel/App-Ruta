@@ -4,6 +4,7 @@ import { TEMAS, DIFICULTADES, NOMBRE_DIFICULTAD } from '../data/temas';
 import { listarCuestionarios } from '../services/cuestionarios';
 import { listarContenidos } from '../services/contenidos';
 import { listarResultados } from '../services/resultados';
+import { listarConsultas, agregarMetricasPorEstudiante } from '../services/metricas';
 import { estaAutenticado, autenticar, cerrarSesionAdmin } from '../utils/adminAuth';
 import { supabaseConfigurado } from '../lib/supabase';
 import './Admin.css';
@@ -48,19 +49,24 @@ export function Admin() {
   const [cuestionarios, setCuestionarios] = useState([]);
   const [contenidos, setContenidos] = useState([]);
   const [resultados, setResultados] = useState([]);
+  const [consultas, setConsultas] = useState([]);
   const [cargando, setCargando] = useState(false);
 
   useEffect(() => {
     if (!autenticado) return;
     setCargando(true);
-    Promise.all([listarCuestionarios(), listarContenidos(), listarResultados()]).then(
-      ([resCuest, resContenidos, resResult]) => {
-        setCuestionarios(resCuest.data || []);
-        setContenidos(resContenidos.data || []);
-        setResultados(resResult.data || []);
-        setCargando(false);
-      }
-    );
+    Promise.all([
+      listarCuestionarios(),
+      listarContenidos(),
+      listarResultados(),
+      listarConsultas(),
+    ]).then(([resCuest, resContenidos, resResult, resConsultas]) => {
+      setCuestionarios(resCuest.data || []);
+      setContenidos(resContenidos.data || []);
+      setResultados(resResult.data || []);
+      setConsultas(resConsultas.data || []);
+      setCargando(false);
+    });
   }, [autenticado]);
 
   if (!autenticado) {
@@ -112,6 +118,9 @@ export function Admin() {
         </button>
         <button className={pestana === 'resultados' ? 'activa' : ''} onClick={() => setPestana('resultados')}>
           Resultados
+        </button>
+        <button className={pestana === 'estudiantes' ? 'activa' : ''} onClick={() => setPestana('estudiantes')}>
+          Estudiantes
         </button>
       </div>
 
@@ -209,6 +218,49 @@ export function Admin() {
                 <td>{new Date(resultado.creado_en).toLocaleString()}</td>
               </tr>
             ))}
+          </tbody>
+        </table>
+      )}
+
+      {!cargando && pestana === 'estudiantes' && (
+        <table className="admin-tabla">
+          <thead>
+            <tr>
+              <th>Estudiante</th>
+              <th title="Cuestionarios respondidos (todos los intentos)">Cuestionarios</th>
+              <th title="Cuestionarios distintos (tema y nivel únicos)">Distintos</th>
+              <th title="Intentos que exceden el primer intento de cada cuestionario">Repeticiones</th>
+              <th>Nota prom.</th>
+              <th>Mejor nota</th>
+              <th>Aprobados</th>
+              <th title="Contenidos consultados">Contenidos</th>
+              <th>Última actividad</th>
+            </tr>
+          </thead>
+          <tbody>
+            {(() => {
+              const metricas = agregarMetricasPorEstudiante(resultados, consultas);
+              if (metricas.length === 0) {
+                return (
+                  <tr>
+                    <td colSpan={9}>Aún no hay actividad de estudiantes registrada.</td>
+                  </tr>
+                );
+              }
+              return metricas.map((m) => (
+                <tr key={m.nombre}>
+                  <td>{m.nombre}</td>
+                  <td>{m.intentos}</td>
+                  <td>{m.cuestionariosUnicos}</td>
+                  <td>{m.repeticiones}</td>
+                  <td>{m.notaPromedio}/20</td>
+                  <td>{m.mejorNota}/20</td>
+                  <td>{m.aprobados}</td>
+                  <td>{m.contenidosConsultados}</td>
+                  <td>{m.ultimaActividad ? new Date(m.ultimaActividad).toLocaleString() : '—'}</td>
+                </tr>
+              ));
+            })()}
           </tbody>
         </table>
       )}

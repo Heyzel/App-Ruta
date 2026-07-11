@@ -1,3 +1,5 @@
+import { esTemaSinUmbral } from '../data/temas';
+
 function esCorrecta(pregunta, respuesta) {
   const tipo = pregunta.tipo || 'seleccion-simple';
 
@@ -40,7 +42,9 @@ export function calcularResultado(quiz, respuestas) {
   }, 0);
 
   const nota = Math.round(((correctas / total) * 20 + Number.EPSILON) * 100) / 100;
-  const aprobado = nota > quiz.umbralAprobacion;
+  // Los temas sin umbral (p. ej. el tema 0 propedéutico) no reprueban: son
+  // cuestionarios de práctica y siempre se consideran aprobados.
+  const aprobado = esTemaSinUmbral(quiz.tema) ? true : nota > quiz.umbralAprobacion;
 
   return { nota, aprobado, correctas, total };
 }

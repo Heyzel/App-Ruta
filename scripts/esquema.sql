@@ -61,3 +61,26 @@ create policy "leer_contenidos" on contenidos for select using (true);
 
 drop policy if exists "escribir_contenidos" on contenidos;
 create policy "escribir_contenidos" on contenidos for all using (true) with check (true);
+
+-- Métricas: cada fila registra que un estudiante consultó un contenido.
+-- Permite medir cuántos contenidos consulta cada estudiante.
+create table if not exists consultas_contenido (
+  id uuid primary key default gen_random_uuid(),
+  nombre text not null,
+  tema text not null,
+  dificultad text not null,
+  contenido text,
+  tipo text,
+  creado_en timestamptz default now()
+);
+
+alter table consultas_contenido enable row level security;
+
+drop policy if exists "leer_consultas_contenido" on consultas_contenido;
+create policy "leer_consultas_contenido" on consultas_contenido for select using (true);
+
+drop policy if exists "insertar_consultas_contenido" on consultas_contenido;
+create policy "insertar_consultas_contenido" on consultas_contenido for insert with check (true);
+
+drop policy if exists "borrar_consultas_contenido" on consultas_contenido;
+create policy "borrar_consultas_contenido" on consultas_contenido for delete using (true);

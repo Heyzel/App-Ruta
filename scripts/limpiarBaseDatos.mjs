@@ -44,6 +44,7 @@ async function vaciar(tabla) {
 async function limpiar() {
   console.log('Limpiando base de datos…');
   await vaciar('resultados');
+  await vaciar('consultas_contenido');
   if (limpiarTodo) {
     console.log('Modo --todo: también se vaciarán cuestionarios y contenidos.');
     await vaciar('cuestionarios');
