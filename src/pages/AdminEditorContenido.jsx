@@ -142,7 +142,7 @@ export function AdminEditorContenido() {
                     placeholder="https://..."
                   />
                 </label>
-                <label className="editor-campo">
+                <label className="editor-campo admin-contenido-campo-tipo">
                   Tipo
                   <select
                     value={item.tipo || TIPO_CONTENIDO_POR_DEFECTO}

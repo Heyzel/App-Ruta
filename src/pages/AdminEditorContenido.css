@@ -6,17 +6,28 @@
 }
 
 .admin-contenido-fila {
-  display: grid;
-  grid-template-columns: 1.4fr 1.4fr 1.4fr auto auto;
+  display: flex;
+  flex-wrap: wrap;
   gap: 0.75rem;
-  align-items: end;
+  align-items: flex-end;
   padding: 1rem;
   border-radius: 10px;
   background: var(--color-superficie, #1e1e2f);
   border: 1px solid var(--color-borde, #33334d);
 }
 
+.admin-contenido-fila .editor-campo {
+  flex: 1 1 200px;
+  min-width: 0;
+}
+
+.admin-contenido-campo-tipo {
+  flex: 1 1 160px;
+}
+
 .admin-contenido-fila select {
+  width: 100%;
+  box-sizing: border-box;
   padding: 0.6rem 0.7rem;
   border-radius: 8px;
   border: 1px solid var(--color-borde, #33334d);
@@ -26,10 +37,12 @@
 }
 
 .admin-contenido-instrucciones {
-  grid-column: 1 / -1;
+  flex: 1 1 100%;
 }
 
 .admin-contenido-instrucciones textarea {
+  width: 100%;
+  box-sizing: border-box;
   padding: 0.6rem 0.8rem;
   border-radius: 8px;
   border: 1px solid var(--color-borde, #33334d);
@@ -41,6 +54,7 @@
 }
 
 .admin-contenido-eliminar {
+  flex: 0 0 auto;
   border: none;
   background: var(--color-error-suave, #3a1212);
   color: var(--color-error, #ef4444);
@@ -49,10 +63,4 @@
   cursor: pointer;
   font-size: 0.85rem;
   height: fit-content;
-}
-
-@media (max-width: 720px) {
-  .admin-contenido-fila {
-    grid-template-columns: 1fr;
-  }
 }
