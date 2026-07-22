@@ -34,11 +34,12 @@ export default async function handler(req, res) {
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-flash-latest',
       contents: prompt,
     });
     res.status(200).json({ retroalimentacion: response.text });
-  } catch {
+  } catch (err) {
+    console.error('Error al generar retroalimentación con Gemini:', err?.message || err);
     res.status(500).json({ error: 'No se pudo generar la retroalimentación en este momento.' });
   }
 }
