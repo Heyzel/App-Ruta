@@ -84,3 +84,25 @@ create policy "insertar_consultas_contenido" on consultas_contenido for insert w
 
 drop policy if exists "borrar_consultas_contenido" on consultas_contenido;
 create policy "borrar_consultas_contenido" on consultas_contenido for delete using (true);
+
+-- Resultados del examen de suficiencia (uno por presentación).
+create table if not exists resultados_examen (
+  id uuid primary key default gen_random_uuid(),
+  nombre text not null,
+  nota numeric not null,
+  correctas int,
+  total int,
+  detalle jsonb,
+  creado_en timestamptz default now()
+);
+
+alter table resultados_examen enable row level security;
+
+drop policy if exists "leer_resultados_examen" on resultados_examen;
+create policy "leer_resultados_examen" on resultados_examen for select using (true);
+
+drop policy if exists "insertar_resultados_examen" on resultados_examen;
+create policy "insertar_resultados_examen" on resultados_examen for insert with check (true);
+
+drop policy if exists "borrar_resultados_examen" on resultados_examen;
+create policy "borrar_resultados_examen" on resultados_examen for delete using (true);

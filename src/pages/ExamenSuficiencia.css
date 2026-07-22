@@ -1,0 +1,53 @@
+.pagina-examen {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.examen-ayuda {
+  opacity: 0.85;
+  margin-bottom: 1.5rem;
+}
+
+.examen-procesando {
+  font-weight: 600;
+}
+
+.examen-nota {
+  font-size: 1.1rem;
+  margin: 0.5rem 0 1.5rem;
+}
+
+.examen-retro,
+.examen-desbloqueos {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border: 1px solid rgba(127, 127, 127, 0.25);
+  border-radius: 12px;
+}
+
+.examen-retro h2,
+.examen-desbloqueos h2 {
+  margin-top: 0;
+  font-size: 1.05rem;
+}
+
+.examen-desbloqueos-nota {
+  opacity: 0.8;
+  font-size: 0.9rem;
+  margin-top: 0;
+}
+
+.examen-desbloqueos ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.examen-desbloqueos li {
+  margin: 0.35rem 0;
+}
+
+.examen-volver {
+  display: inline-block;
+  margin-top: 1rem;
+}

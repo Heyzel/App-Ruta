@@ -22,6 +22,7 @@ VITE_SUPABASE_URL=https://tu-proyecto.supabase.co
 VITE_SUPABASE_ANON_KEY=tu-clave-anonima-publica
 VITE_ADMIN_PASSWORD=elige-una-clave-para-el-panel-admin
 VITE_ZAPIER_CHATBOT_ID=id-del-chatbot-de-zapier
+GEMINI_API_KEY=tu-clave-de-gemini
 ```
 
 - `VITE_SUPABASE_ANON_KEY` es la clave **anónima/pública** (rol `anon`) del cliente. **No** uses
@@ -29,9 +30,16 @@ VITE_ZAPIER_CHATBOT_ID=id-del-chatbot-de-zapier
 - `VITE_ADMIN_PASSWORD` es la contraseña del panel `/admin`.
 - `VITE_ZAPIER_CHATBOT_ID` es el `chatbot-id` real del embed de Zapier (no el slug de la URL
   pública). Si se deja vacío, el panel de chat muestra un aviso y la app sigue funcionando.
+- `GEMINI_API_KEY` es la clave de la API de Google Gemini (AI Studio) usada para generar la
+  retroalimentación automática del examen de suficiencia. **No lleva prefijo `VITE_`**: es una
+  variable de servidor que solo lee la función serverless `api/retroalimentacion.js`, nunca se
+  incrusta en el bundle del cliente. Si se deja vacía, el examen sigue funcionando (calificación
+  y desbloqueo de niveles) pero se muestra un mensaje de retroalimentación genérico en vez del
+  generado por IA.
 
 > En el hosting (Netlify/Vercel), estas mismas variables deben definirse en el panel de
-> **Environment Variables** del proyecto. Las variables `VITE_*` se incrustan en el build.
+> **Environment Variables** del proyecto. Las variables `VITE_*` se incrustan en el build;
+> `GEMINI_API_KEY` se mantiene solo en el servidor.
 
 ---
 
@@ -74,6 +82,24 @@ node scripts/limpiarBaseDatos.mjs --todo   # además vacía cuestionarios y cont
    opcionalmente añade los contenidos como *knowledge*.
 3. Publica el chatbot y copia su **Chatbot ID** desde el código de *Embed*.
 4. Colócalo en `VITE_ZAPIER_CHATBOT_ID` (en `.env` y en las variables del hosting).
+
+---
+
+## 5.1 Retroalimentación por IA del examen de suficiencia (Gemini)
+
+El examen de suficiencia (`/examen-suficiencia`) envía la nota y un resumen de errores a una
+función serverless de Vercel (`api/retroalimentacion.js`) que llama a **Google Gemini**
+(`gemini-2.5-flash`) para generar un mensaje de retroalimentación motivador.
+
+1. Crea una clave de API gratuita en [Google AI Studio](https://aistudio.google.com/).
+2. Colócala en `GEMINI_API_KEY` (en `.env` y en las variables del hosting). **No** uses el
+   prefijo `VITE_`: esta clave solo debe vivir en el servidor.
+3. La app funciona sin esta variable: si falta o la llamada falla, la pantalla de resultados
+   del examen muestra un mensaje de respaldo genérico en vez del texto generado por IA. El
+   cálculo de la nota y el desbloqueo de niveles no dependen de Gemini.
+4. `npm run dev` (Vite puro) **no** ejecuta las funciones de `api/`, por lo que en desarrollo
+   local siempre verás el mensaje de respaldo. Para probar la integración real con Gemini en
+   local, usa `npx vercel dev` (requiere `vercel login` la primera vez).
 
 ---
 
@@ -125,3 +151,4 @@ Pasos generales:
 | Errores 401 en consola al guardar | Clave secreta en vez de anónima | Usa la `anon key` en `VITE_SUPABASE_ANON_KEY` |
 | "Could not find the table…" | No se ejecutó el esquema SQL | Ejecuta `scripts/esquema.sql` en Supabase |
 | El chatbot no aparece | Falta `VITE_ZAPIER_CHATBOT_ID` | Define la variable con el id real del embed |
+| El examen de suficiencia muestra retroalimentación genérica | Falta `GEMINI_API_KEY` o corres con `npm run dev` | Define la variable y usa `npx vercel dev` para probar `/api` en local |

@@ -16,6 +16,7 @@ function estadoInicial() {
     resultadosQuiz: {},
     ultimaUbicacion: null,
     nombreUsuario: '',
+    examenPresentado: false,
   };
 }
 
@@ -72,6 +73,24 @@ export function ProgresoProvider({ children }) {
     [setProgreso]
   );
 
+  const desbloquearPorExamen = useCallback(
+    (mapaNiveles) => {
+      // mapaNiveles: { temaId: ['principiante', 'intermedio', ...], ... }
+      // El desbloqueo de niveles solo ocurre la primera vez que se presenta el
+      // examen; en presentaciones posteriores solo se registra la calificación.
+      setProgreso((prev) => {
+        if (prev.examenPresentado) return prev;
+        const nuevos = { ...prev.nivelesDesbloqueados };
+        Object.entries(mapaNiveles).forEach(([temaId, niveles]) => {
+          const actuales = prev.nivelesDesbloqueados[temaId] || ['principiante'];
+          nuevos[temaId] = Array.from(new Set([...actuales, ...niveles]));
+        });
+        return { ...prev, nivelesDesbloqueados: nuevos, examenPresentado: true };
+      });
+    },
+    [setProgreso]
+  );
+
   const actualizarUbicacion = useCallback(
     (ruta, temaId, dificultad) => {
       setProgreso((prev) => ({
@@ -95,6 +114,7 @@ export function ProgresoProvider({ children }) {
       estaDesbloqueado,
       obtenerResultado,
       registrarResultado,
+      desbloquearPorExamen,
       actualizarUbicacion,
       setNombreUsuario,
     }),
@@ -103,6 +123,7 @@ export function ProgresoProvider({ children }) {
       estaDesbloqueado,
       obtenerResultado,
       registrarResultado,
+      desbloquearPorExamen,
       actualizarUbicacion,
       setNombreUsuario,
     ]

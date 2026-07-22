@@ -3,6 +3,7 @@ import { BotonInicio } from './components/BotonInicio';
 import { ChatbotPanel } from './components/ChatbotPanel';
 import { Bienvenida } from './pages/Bienvenida';
 import { Inicio } from './pages/Inicio';
+import { ExamenSuficiencia } from './pages/ExamenSuficiencia';
 import { Tema } from './pages/Tema';
 import { Contenidos } from './pages/Contenidos';
 import { JuegoDesafio } from './pages/JuegoDesafio';
@@ -20,6 +21,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Bienvenida />} />
         <Route path="/temas" element={<Inicio />} />
+        <Route path="/examen-suficiencia" element={<ExamenSuficiencia />} />
         <Route path="/tema/:temaId" element={<Tema />} />
         <Route path="/tema/:temaId/:dificultad" element={<Contenidos />} />
         <Route path="/tema/:temaId/:dificultad/juego/:indice" element={<JuegoDesafio />} />
