@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useProgreso } from '../context/ProgresoContext';
 import { TEMAS } from '../data/temas';
 import { TarjetaTema } from '../components/TarjetaTema';
@@ -23,6 +24,22 @@ export function Inicio() {
             </button>
           </p>
         )}
+
+        <Link
+          to="/examen-suficiencia"
+          className="examen-suficiencia-boton"
+          title={
+            progreso.examenPresentado
+              ? 'Ya presentaste el examen. Puedes repetirlo para repasar tu nivel (no desbloquea niveles nuevos).'
+              : 'Presenta el examen de suficiencia'
+          }
+        >
+          <span className="examen-suficiencia-icono" aria-hidden="true">📝</span>
+          <span className="examen-suficiencia-texto">Examen de suficiencia</span>
+          {progreso.examenPresentado && (
+            <span className="examen-suficiencia-check" aria-hidden="true">✓</span>
+          )}
+        </Link>
       </header>
 
       <AvisoContinuar ultimaUbicacion={progreso.ultimaUbicacion} />
