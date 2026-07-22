@@ -7,6 +7,7 @@ import { nivelesDesbloqueadosTema } from '../utils/calcularDesbloqueoExamen';
 import { useProgreso } from '../context/ProgresoContext';
 import { Quiz } from '../components/Quiz';
 import { ModalNombre } from '../components/ModalNombre';
+import { ModalProcesando } from '../components/ModalProcesando';
 import { guardarResultadoExamen } from '../services/examen';
 import { obtenerRetroalimentacion } from '../services/retroalimentacion';
 import './ExamenSuficiencia.css';
@@ -176,9 +177,9 @@ export function ExamenSuficiencia() {
           : 'Según tus respuestas, se desbloquearán automáticamente los niveles que demuestres dominar.'}
       </p>
 
-      {fase === 'procesando' && <p className="examen-procesando">Calculando tu resultado…</p>}
-
       <Quiz quiz={quiz} onEnviar={manejarEnvio} />
+
+      {fase === 'procesando' && <ModalProcesando />}
 
       {pidiendoNombre && (
         <ModalNombre
