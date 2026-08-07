@@ -14,6 +14,8 @@ function estadoInicial() {
   return {
     nivelesDesbloqueados,
     resultadosQuiz: {},
+    nivelesMarcados: {},
+    temasMarcados: [],
     ultimaUbicacion: null,
     nombreUsuario: '',
     examenPresentado: false,
@@ -40,6 +42,47 @@ export function ProgresoProvider({ children }) {
   const obtenerResultado = useCallback(
     (temaId, dificultad) => progreso.resultadosQuiz[`${temaId}:${dificultad}`] || null,
     [progreso.resultadosQuiz]
+  );
+
+  // "Marcado" es la confirmación manual del estudiante (botón "Marcar
+  // completado"), distinta del resultado real del quiz: solo se puede marcar
+  // un nivel una vez que ya fue aprobado de verdad (ver RutaNiveles.jsx).
+  // El `|| {}` / `|| []` cubre progresos guardados en localStorage antes de
+  // que existieran estos campos (no vienen en el objeto persistido).
+  const esNivelMarcado = useCallback(
+    (temaId, dificultad) => ((progreso.nivelesMarcados || {})[temaId] || []).includes(dificultad),
+    [progreso.nivelesMarcados]
+  );
+
+  const marcarNivelCompletado = useCallback(
+    (temaId, dificultad) => {
+      setProgreso((prev) => {
+        const nivelesMarcados = prev.nivelesMarcados || {};
+        const actuales = nivelesMarcados[temaId] || [];
+        if (actuales.includes(dificultad)) return prev;
+        return {
+          ...prev,
+          nivelesMarcados: { ...nivelesMarcados, [temaId]: [...actuales, dificultad] },
+        };
+      });
+    },
+    [setProgreso]
+  );
+
+  const esTemaMarcado = useCallback(
+    (temaId) => (progreso.temasMarcados || []).includes(temaId),
+    [progreso.temasMarcados]
+  );
+
+  const marcarTemaCompletado = useCallback(
+    (temaId) => {
+      setProgreso((prev) => {
+        const temasMarcados = prev.temasMarcados || [];
+        if (temasMarcados.includes(temaId)) return prev;
+        return { ...prev, temasMarcados: [...temasMarcados, temaId] };
+      });
+    },
+    [setProgreso]
   );
 
   const registrarResultado = useCallback(
@@ -74,18 +117,39 @@ export function ProgresoProvider({ children }) {
   );
 
   const desbloquearPorExamen = useCallback(
-    (mapaNiveles) => {
+    (mapaNiveles, temasPerfectos = []) => {
       // mapaNiveles: { temaId: ['principiante', 'intermedio', ...], ... }
+      // temasPerfectos: temaId de los temas donde se acertaron las 3 preguntas.
       // El desbloqueo de niveles solo ocurre la primera vez que se presenta el
       // examen; en presentaciones posteriores solo se registra la calificación.
       setProgreso((prev) => {
         if (prev.examenPresentado) return prev;
-        const nuevos = { ...prev.nivelesDesbloqueados };
+        const nuevosDesbloqueados = { ...prev.nivelesDesbloqueados };
+        const nuevosMarcados = { ...(prev.nivelesMarcados || {}) };
+
         Object.entries(mapaNiveles).forEach(([temaId, niveles]) => {
           const actuales = prev.nivelesDesbloqueados[temaId] || ['principiante'];
-          nuevos[temaId] = Array.from(new Set([...actuales, ...niveles]));
+          nuevosDesbloqueados[temaId] = Array.from(new Set([...actuales, ...niveles]));
+
+          // Los niveles por debajo del más alto exonerado quedan marcados
+          // como completados (la línea avanza hasta ahí); el más alto queda
+          // como "actual" sin marcar, salvo que la calificación en el tema
+          // haya sido perfecta, en cuyo caso también se marca (y con los
+          // 3 niveles marcados, el tema queda disponible para marcarse).
+          const esPerfecto = temasPerfectos.includes(temaId);
+          const aMarcar = esPerfecto ? niveles : niveles.slice(0, -1);
+          if (aMarcar.length > 0) {
+            const marcadosActuales = nuevosMarcados[temaId] || [];
+            nuevosMarcados[temaId] = Array.from(new Set([...marcadosActuales, ...aMarcar]));
+          }
         });
-        return { ...prev, nivelesDesbloqueados: nuevos, examenPresentado: true };
+
+        return {
+          ...prev,
+          nivelesDesbloqueados: nuevosDesbloqueados,
+          nivelesMarcados: nuevosMarcados,
+          examenPresentado: true,
+        };
       });
     },
     [setProgreso]
@@ -113,6 +177,10 @@ export function ProgresoProvider({ children }) {
       progreso,
       estaDesbloqueado,
       obtenerResultado,
+      esNivelMarcado,
+      marcarNivelCompletado,
+      esTemaMarcado,
+      marcarTemaCompletado,
       registrarResultado,
       desbloquearPorExamen,
       actualizarUbicacion,
@@ -122,6 +190,10 @@ export function ProgresoProvider({ children }) {
       progreso,
       estaDesbloqueado,
       obtenerResultado,
+      esNivelMarcado,
+      marcarNivelCompletado,
+      esTemaMarcado,
+      marcarTemaCompletado,
       registrarResultado,
       desbloquearPorExamen,
       actualizarUbicacion,

@@ -1,8 +1,20 @@
+import { useEffect, useRef } from 'react';
 import { NOMBRE_DIFICULTAD } from '../data/temas';
+import { useAudio } from '../context/AudioContext';
 import './Feedback.css';
 
 export function Feedback({ tema, dificultad, resultado, siguiente, nombre, onIrSiguienteNivel, onVolverContenidos }) {
   const { nota, aprobado, correctas, total } = resultado;
+  const { playSfx } = useAudio();
+  const yaSonoRef = useRef(false);
+
+  useEffect(() => {
+    // El ref evita que StrictMode duplique el sonido en desarrollo.
+    if (aprobado && !yaSonoRef.current) {
+      yaSonoRef.current = true;
+      playSfx('exito');
+    }
+  }, [aprobado, playSfx]);
 
   return (
     <div className={`feedback ${aprobado ? 'feedback-aprobado' : 'feedback-reprobado'}`}>

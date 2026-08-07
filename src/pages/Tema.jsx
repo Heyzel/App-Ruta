@@ -1,13 +1,11 @@
 import { Link, useParams } from 'react-router-dom';
 import { obtenerTema } from '../data/temas';
-import { useProgreso } from '../context/ProgresoContext';
-import { SelectorDificultad } from '../components/SelectorDificultad';
+import { RutaNiveles } from '../components/RutaNiveles';
 import './Tema.css';
 
 export function Tema() {
   const { temaId } = useParams();
   const tema = obtenerTema(temaId);
-  const { estaDesbloqueado, obtenerResultado } = useProgreso();
 
   if (!tema) {
     return (
@@ -23,11 +21,7 @@ export function Tema() {
       <h1>{tema.nombre}</h1>
       <p className="tema-descripcion">{tema.descripcion}</p>
       <h2>Elige un nivel de dificultad</h2>
-      <SelectorDificultad
-        temaId={tema.id}
-        estaDesbloqueado={estaDesbloqueado}
-        obtenerResultado={obtenerResultado}
-      />
+      <RutaNiveles temaId={tema.id} />
     </div>
   );
 }

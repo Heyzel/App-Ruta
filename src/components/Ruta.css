@@ -1,0 +1,166 @@
+.ruta {
+  position: relative;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.ruta-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ruta-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  column-gap: 1rem;
+  align-items: start;
+}
+
+/* La traza asume tarjetas de altura similar; si el contenido varía mucho
+   en altura, este porcentaje deja de alinearse con los puntos reales.
+   El track es punteado (tramos aún no marcados como completados); el
+   relleno sólido y animado (abajo) representa lo ya completado. */
+.ruta-spine {
+  position: absolute;
+  left: calc(1.25rem - 1px);
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--color-borde, #33334d) 0,
+    var(--color-borde, #33334d) 5px,
+    transparent 5px,
+    transparent 10px
+  );
+}
+
+.ruta-spine-relleno {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  background: var(--color-exito, #22c55e);
+  transition: height 0.4s ease;
+}
+
+.ruta-punto {
+  position: relative;
+  z-index: 1;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  background: var(--color-superficie, #1e1e2f);
+  border: 2px solid var(--color-borde, #33334d);
+  color: var(--color-texto, #e5e5f0);
+  transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease;
+}
+
+.ruta-item--completado .ruta-punto {
+  background: var(--color-exito-suave, #123a24);
+  border-color: var(--color-exito, #22c55e);
+  color: var(--color-exito, #22c55e);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ruta-item--completado .ruta-punto {
+    animation: ruta-check-pop 0.5s ease;
+  }
+}
+
+@keyframes ruta-check-pop {
+  0% {
+    transform: scale(0.6);
+  }
+  60% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.ruta-item--bloqueado .ruta-punto {
+  opacity: 0.55;
+}
+
+.ruta-item--activo .ruta-punto {
+  border-color: var(--color-primario, #4f46e5);
+}
+
+.ruta-item--activo .ruta-punto::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid var(--color-primario, #4f46e5);
+  opacity: 0.6;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ruta-item--activo .ruta-punto::after {
+    animation: ruta-pulso 1.8s ease-out infinite;
+  }
+}
+
+@keyframes ruta-pulso {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+.ruta-tarjeta {
+  min-width: 0;
+  padding-top: 0.15rem;
+}
+
+/* Modo alternado: tarjetas a izquierda/derecha de una línea centrada.
+   Por debajo del ancho mínimo se usa el layout de una sola columna
+   (igual que el modo por defecto) para no romper en móvil. */
+@media (min-width: 640px) {
+  .ruta--alternado {
+    max-width: 760px;
+  }
+
+  .ruta--alternado .ruta-item {
+    grid-template-columns: 1fr 2.5rem 1fr;
+  }
+
+  /* Solo el track exterior se recentra: el relleno es hijo de .ruta-spine y
+     ya hereda su posición a través de left:0 relativo a esa caja de 2px.
+     Aplicarle left:50% también (relativo a esos 2px) lo desalineaba ~1px
+     del track, dejando ver el punteado de fondo al lado del relleno. */
+  .ruta--alternado .ruta-spine {
+    left: 50%;
+  }
+
+  .ruta--alternado .ruta-punto {
+    grid-column: 2;
+  }
+
+  .ruta--alternado .ruta-item--izq .ruta-tarjeta {
+    grid-column: 1;
+    justify-self: end;
+    text-align: right;
+  }
+
+  .ruta--alternado .ruta-item--der .ruta-tarjeta {
+    grid-column: 3;
+    justify-self: start;
+    text-align: left;
+  }
+}

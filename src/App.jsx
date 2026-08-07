@@ -1,6 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
 import { BotonInicio } from './components/BotonInicio';
 import { ChatbotPanel } from './components/ChatbotPanel';
+import { FondoAnimado } from './components/FondoAnimado';
+import { ControlAudio } from './components/ControlAudio';
 import { Bienvenida } from './pages/Bienvenida';
 import { Inicio } from './pages/Inicio';
 import { ExamenSuficiencia } from './pages/ExamenSuficiencia';
@@ -16,8 +18,10 @@ import { AdminEditorContenido } from './pages/AdminEditorContenido';
 function App() {
   return (
     <>
+      <FondoAnimado />
       <BotonInicio />
       <ChatbotPanel />
+      <ControlAudio />
       <Routes>
         <Route path="/" element={<Bienvenida />} />
         <Route path="/temas" element={<Inicio />} />

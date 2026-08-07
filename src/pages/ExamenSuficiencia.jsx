@@ -59,6 +59,7 @@ export function ExamenSuficiencia() {
     const temasReforzar = [];
     const temasBuenConocimiento = [];
     const temasDominio = [];
+    const temasPerfectos = [];
     detalleTemas.forEach((d) => {
       const c = d.correcto;
       if (!c.principiante) {
@@ -67,6 +68,7 @@ export function ExamenSuficiencia() {
         temasBuenConocimiento.push(d.nombre);
       } else {
         temasDominio.push(d.nombre);
+        temasPerfectos.push(d.tema);
       }
     });
 
@@ -79,6 +81,7 @@ export function ExamenSuficiencia() {
       temasReforzar,
       temasBuenConocimiento,
       temasDominio,
+      temasPerfectos,
     };
   }
 
@@ -91,7 +94,7 @@ export function ExamenSuficiencia() {
     setResumen({ ...r, esPrimeraPresentacion });
 
     // 1) Actualizar progreso local (unión de niveles, solo en la primera presentación).
-    desbloquearPorExamen(r.desbloqueos);
+    desbloquearPorExamen(r.desbloqueos, r.temasPerfectos);
 
     // 2) Guardar en Supabase (best effort).
     await guardarResultadoExamen({
