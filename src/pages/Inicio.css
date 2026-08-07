@@ -81,8 +81,6 @@
   font-size: inherit;
 }
 
-.grilla-temas {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
+.ruta-temas {
+  margin-top: 2rem;
 }

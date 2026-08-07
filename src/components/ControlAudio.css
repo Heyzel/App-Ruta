@@ -1,0 +1,25 @@
+.control-audio {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 150;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--color-borde, #33334d);
+  background: var(--color-superficie, #1e1e2f);
+  color: inherit;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.control-audio:hover {
+  transform: translateY(-1px);
+  border-color: var(--color-primario, #4f46e5);
+}
+
+.control-audio--activo {
+  border-color: var(--color-primario, #4f46e5);
+}

@@ -4,12 +4,15 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
 import { ProgresoProvider } from './context/ProgresoContext.jsx'
+import { AudioProvider } from './context/AudioContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <ProgresoProvider>
-        <App />
+        <AudioProvider>
+          <App />
+        </AudioProvider>
       </ProgresoProvider>
     </BrowserRouter>
   </StrictMode>,

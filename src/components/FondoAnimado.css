@@ -1,0 +1,77 @@
+.fondo-animado {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.fondo-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(127, 127, 127, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(127, 127, 127, 0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(circle at 50% 30%, #000 0%, transparent 75%);
+}
+
+.fondo-blob {
+  position: absolute;
+  width: 40vmax;
+  height: 40vmax;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.35;
+}
+
+.fondo-blob--1 {
+  top: -10%;
+  left: -10%;
+  background: radial-gradient(circle, var(--color-primario, #4f46e5), transparent 70%);
+}
+
+.fondo-blob--2 {
+  bottom: -15%;
+  right: -5%;
+  background: radial-gradient(circle, var(--color-exito, #22c55e), transparent 70%);
+}
+
+.fondo-blob--3 {
+  top: 40%;
+  right: 20%;
+  opacity: 0.18;
+  background: radial-gradient(circle, var(--color-error, #ef4444), transparent 70%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fondo-blob--1 {
+    animation: fondo-flotar-1 24s ease-in-out infinite alternate;
+  }
+  .fondo-blob--2 {
+    animation: fondo-flotar-2 28s ease-in-out infinite alternate;
+    animation-delay: -6s;
+  }
+  .fondo-blob--3 {
+    animation: fondo-flotar-1 32s ease-in-out infinite alternate;
+    animation-delay: -14s;
+  }
+}
+
+@keyframes fondo-flotar-1 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(6vw, 8vh) scale(1.12);
+  }
+}
+
+@keyframes fondo-flotar-2 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(-5vw, -4vh) scale(1.08);
+  }
+}
