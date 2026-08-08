@@ -12,6 +12,8 @@
   --color-error: #ef4444;
   --color-error-suave: #3a1212;
 
+  --font-titulo: 'Press Start 2P', system-ui, cursive;
+
   font: 16px/1.5 system-ui, 'Segoe UI', Roboto, sans-serif;
   color-scheme: dark light;
   color: var(--color-texto);
@@ -60,4 +62,6 @@ h1,
 h2,
 h3 {
   color: var(--color-texto);
+  font-family: var(--font-titulo);
+  line-height: 1.5;
 }
