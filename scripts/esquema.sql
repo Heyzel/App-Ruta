@@ -106,3 +106,51 @@ create policy "insertar_resultados_examen" on resultados_examen for insert with 
 
 drop policy if exists "borrar_resultados_examen" on resultados_examen;
 create policy "borrar_resultados_examen" on resultados_examen for delete using (true);
+
+-- Opiniones de estudiantes sobre un tema (caja "Danos tu opinión" en la
+-- sección de niveles). Anónimas: no se guarda el nombre del estudiante.
+create table if not exists opiniones_tema (
+  id uuid primary key default gen_random_uuid(),
+  tema text not null,
+  calificacion smallint not null check (calificacion between 1 and 5),
+  aprendio_algo_nuevo boolean,
+  contenidos_adecuados boolean,
+  nivel_favorito text,
+  comentario text,
+  creado_en timestamptz default now()
+);
+
+alter table opiniones_tema enable row level security;
+
+drop policy if exists "leer_opiniones_tema" on opiniones_tema;
+create policy "leer_opiniones_tema" on opiniones_tema for select using (true);
+
+drop policy if exists "insertar_opiniones_tema" on opiniones_tema;
+create policy "insertar_opiniones_tema" on opiniones_tema for insert with check (true);
+
+drop policy if exists "borrar_opiniones_tema" on opiniones_tema;
+create policy "borrar_opiniones_tema" on opiniones_tema for delete using (true);
+
+-- Opinión general de la plataforma (caja en la cartelera de temas, se
+-- habilita cuando el estudiante completó al menos un nivel de cada tema).
+-- También anónima.
+create table if not exists opiniones_plataforma (
+  id uuid primary key default gen_random_uuid(),
+  calificacion smallint not null check (calificacion between 1 and 5),
+  experiencia text,
+  sugerencia text,
+  recomendacion_rutas text,
+  le_gusto_elegir boolean,
+  creado_en timestamptz default now()
+);
+
+alter table opiniones_plataforma enable row level security;
+
+drop policy if exists "leer_opiniones_plataforma" on opiniones_plataforma;
+create policy "leer_opiniones_plataforma" on opiniones_plataforma for select using (true);
+
+drop policy if exists "insertar_opiniones_plataforma" on opiniones_plataforma;
+create policy "insertar_opiniones_plataforma" on opiniones_plataforma for insert with check (true);
+
+drop policy if exists "borrar_opiniones_plataforma" on opiniones_plataforma;
+create policy "borrar_opiniones_plataforma" on opiniones_plataforma for delete using (true);
