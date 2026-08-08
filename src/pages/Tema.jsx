@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { obtenerTema } from '../data/temas';
 import { RutaNiveles } from '../components/RutaNiveles';
+import { CajaOpinionTema } from '../components/CajaOpinionTema';
 import './Tema.css';
 
 export function Tema() {
@@ -22,6 +23,7 @@ export function Tema() {
       <p className="tema-descripcion">{tema.descripcion}</p>
       <h2>Elige un nivel de dificultad</h2>
       <RutaNiveles temaId={tema.id} />
+      <CajaOpinionTema temaId={tema.id} />
     </div>
   );
 }

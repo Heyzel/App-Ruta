@@ -5,6 +5,7 @@ import { listarCuestionarios } from '../services/cuestionarios';
 import { listarContenidos } from '../services/contenidos';
 import { listarResultados } from '../services/resultados';
 import { listarConsultas, agregarMetricasPorEstudiante } from '../services/metricas';
+import { listarOpinionesTema, listarOpinionesPlataforma } from '../services/opiniones';
 import { estaAutenticado, autenticar, cerrarSesionAdmin } from '../utils/adminAuth';
 import { supabaseConfigurado } from '../lib/supabase';
 import './Admin.css';
@@ -50,6 +51,8 @@ export function Admin() {
   const [contenidos, setContenidos] = useState([]);
   const [resultados, setResultados] = useState([]);
   const [consultas, setConsultas] = useState([]);
+  const [opinionesTema, setOpinionesTema] = useState([]);
+  const [opinionesPlataforma, setOpinionesPlataforma] = useState([]);
   const [cargando, setCargando] = useState(false);
 
   useEffect(() => {
@@ -60,11 +63,15 @@ export function Admin() {
       listarContenidos(),
       listarResultados(),
       listarConsultas(),
-    ]).then(([resCuest, resContenidos, resResult, resConsultas]) => {
+      listarOpinionesTema(),
+      listarOpinionesPlataforma(),
+    ]).then(([resCuest, resContenidos, resResult, resConsultas, resOpTema, resOpPlataforma]) => {
       setCuestionarios(resCuest.data || []);
       setContenidos(resContenidos.data || []);
       setResultados(resResult.data || []);
       setConsultas(resConsultas.data || []);
+      setOpinionesTema(resOpTema.data || []);
+      setOpinionesPlataforma(resOpPlataforma.data || []);
       setCargando(false);
     });
   }, [autenticado]);
@@ -121,6 +128,9 @@ export function Admin() {
         </button>
         <button className={pestana === 'estudiantes' ? 'activa' : ''} onClick={() => setPestana('estudiantes')}>
           Estudiantes
+        </button>
+        <button className={pestana === 'opiniones' ? 'activa' : ''} onClick={() => setPestana('opiniones')}>
+          Opiniones
         </button>
       </div>
 
@@ -263,6 +273,74 @@ export function Admin() {
             })()}
           </tbody>
         </table>
+      )}
+
+      {!cargando && pestana === 'opiniones' && (
+        <>
+          <h2>Opiniones por tema</h2>
+          <table className="admin-tabla">
+            <thead>
+              <tr>
+                <th>Tema</th>
+                <th>Calificación</th>
+                <th>¿Aprendió algo nuevo?</th>
+                <th>¿Contenidos adecuados?</th>
+                <th>Nivel favorito</th>
+                <th>Comentario</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody>
+              {opinionesTema.length === 0 && (
+                <tr>
+                  <td colSpan={7}>Aún no hay opiniones de temas.</td>
+                </tr>
+              )}
+              {opinionesTema.map((opinion) => (
+                <tr key={opinion.id}>
+                  <td>{opinion.tema}</td>
+                  <td>{'★'.repeat(opinion.calificacion)}</td>
+                  <td>{opinion.aprendio_algo_nuevo === null ? '—' : opinion.aprendio_algo_nuevo ? 'Sí' : 'No'}</td>
+                  <td>{opinion.contenidos_adecuados === null ? '—' : opinion.contenidos_adecuados ? 'Sí' : 'No'}</td>
+                  <td>{NOMBRE_DIFICULTAD[opinion.nivel_favorito] || '—'}</td>
+                  <td>{opinion.comentario || '—'}</td>
+                  <td>{new Date(opinion.creado_en).toLocaleString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <h2>Opiniones de la plataforma</h2>
+          <table className="admin-tabla">
+            <thead>
+              <tr>
+                <th>Calificación</th>
+                <th>Experiencia</th>
+                <th>Sugerencia</th>
+                <th>Recomendación de rutas</th>
+                <th>¿Le gustó elegir?</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody>
+              {opinionesPlataforma.length === 0 && (
+                <tr>
+                  <td colSpan={6}>Aún no hay opiniones de la plataforma.</td>
+                </tr>
+              )}
+              {opinionesPlataforma.map((opinion) => (
+                <tr key={opinion.id}>
+                  <td>{'★'.repeat(opinion.calificacion)}</td>
+                  <td>{opinion.experiencia || '—'}</td>
+                  <td>{opinion.sugerencia || '—'}</td>
+                  <td>{opinion.recomendacion_rutas || '—'}</td>
+                  <td>{opinion.le_gusto_elegir === null ? '—' : opinion.le_gusto_elegir ? 'Sí' : 'No'}</td>
+                  <td>{new Date(opinion.creado_en).toLocaleString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
       )}
     </div>
   );

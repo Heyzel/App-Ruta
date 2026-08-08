@@ -118,3 +118,28 @@
 .ruta-temas {
   margin-top: 2rem;
 }
+
+.reiniciar-progreso-contenedor {
+  max-width: 760px;
+  margin: 2.5rem auto 0;
+  display: flex;
+  justify-content: center;
+}
+
+.reiniciar-progreso-boton {
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-borde, #33334d);
+  background: transparent;
+  color: inherit;
+  opacity: 0.7;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: opacity 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.reiniciar-progreso-boton:hover {
+  opacity: 1;
+  border-color: var(--color-error, #ef4444);
+  color: var(--color-error, #ef4444);
+}

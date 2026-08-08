@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useProgreso } from '../context/ProgresoContext';
 import { useAudio } from '../context/AudioContext';
 import { TEMAS, DIFICULTADES } from '../data/temas';
@@ -7,6 +7,7 @@ import { TarjetaTema } from '../components/TarjetaTema';
 import { Ruta } from '../components/Ruta';
 import { AvisoContinuar } from '../components/AvisoContinuar';
 import { ModalNombre } from '../components/ModalNombre';
+import { CajaOpinionPlataforma } from '../components/CajaOpinionPlataforma';
 import './Inicio.css';
 
 const TITULO_INICIO_LINEAS = ['Rutas de Aprendizaje', 'Algoritmos y Programación'];
@@ -38,13 +39,24 @@ function TituloOla({ lineas }) {
 }
 
 export function Inicio() {
-  const { progreso, esNivelMarcado, esTemaMarcado, marcarTemaCompletado, setNombreUsuario } = useProgreso();
+  const { progreso, esNivelMarcado, esTemaMarcado, marcarTemaCompletado, setNombreUsuario, reiniciarProgreso } =
+    useProgreso();
   const { playSfx } = useAudio();
   const [editandoNombre, setEditandoNombre] = useState(false);
+  const navigate = useNavigate();
 
   function manejarMarcarTema(temaId) {
     playSfx('desbloqueo');
     marcarTemaCompletado(temaId);
+  }
+
+  function manejarReiniciarProgreso() {
+    const confirmado = window.confirm(
+      'Esto borrará tu progreso local (niveles, resultados y nombre guardados en este navegador) y comenzarás la ruta desde cero. ¿Deseas continuar?'
+    );
+    if (!confirmado) return;
+    reiniciarProgreso();
+    navigate('/');
   }
 
   const nodosTemas = TEMAS.map((tema, indice) => {
@@ -78,6 +90,13 @@ export function Inicio() {
     }
     return idx;
   })();
+
+  // Se habilita la opinión general de la plataforma cuando el estudiante
+  // completó (o exoneró con el examen de suficiencia) al menos un nivel de
+  // cada tema, incluyendo el propedéutico opcional.
+  const puedeOpinarPlataforma = TEMAS.every((tema) =>
+    DIFICULTADES.some((dificultad) => esNivelMarcado(tema.id, dificultad))
+  );
 
   return (
     <div className="pagina-inicio">
@@ -114,6 +133,12 @@ export function Inicio() {
 
       <Ruta nodos={nodosTemas} indiceActivo={indiceActivo} className="ruta-temas" alternado />
 
+      <div className="reiniciar-progreso-contenedor">
+        <button type="button" className="reiniciar-progreso-boton" onClick={manejarReiniciarProgreso}>
+          Comenzar de nuevo
+        </button>
+      </div>
+
       {(!progreso.nombreUsuario || editandoNombre) && (
         <ModalNombre
           valorInicial={progreso.nombreUsuario}
@@ -124,6 +149,8 @@ export function Inicio() {
           onCancelar={progreso.nombreUsuario ? () => setEditandoNombre(false) : undefined}
         />
       )}
+
+      <CajaOpinionPlataforma puedeOpinar={puedeOpinarPlataforma} />
     </div>
   );
 }

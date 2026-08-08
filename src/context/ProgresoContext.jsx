@@ -19,6 +19,8 @@ function estadoInicial() {
     ultimaUbicacion: null,
     nombreUsuario: '',
     examenPresentado: false,
+    opinionesTemaEnviadas: [],
+    opinionPlataformaEnviada: false,
   };
 }
 
@@ -172,6 +174,33 @@ export function ProgresoProvider({ children }) {
     [setProgreso]
   );
 
+  const haEnviadoOpinionTema = useCallback(
+    (temaId) => (progreso.opinionesTemaEnviadas || []).includes(temaId),
+    [progreso.opinionesTemaEnviadas]
+  );
+
+  const marcarOpinionTemaEnviada = useCallback(
+    (temaId) => {
+      setProgreso((prev) => {
+        const actuales = prev.opinionesTemaEnviadas || [];
+        if (actuales.includes(temaId)) return prev;
+        return { ...prev, opinionesTemaEnviadas: [...actuales, temaId] };
+      });
+    },
+    [setProgreso]
+  );
+
+  const marcarOpinionPlataformaEnviada = useCallback(() => {
+    setProgreso((prev) => ({ ...prev, opinionPlataformaEnviada: true }));
+  }, [setProgreso]);
+
+  // Reinicia el progreso local (localStorage) para empezar la ruta desde
+  // cero. No toca nada en Supabase: los resultados, opiniones, etc. ya
+  // guardados en la base de datos permanecen intactos.
+  const reiniciarProgreso = useCallback(() => {
+    setProgreso(estadoInicial());
+  }, [setProgreso]);
+
   const value = useMemo(
     () => ({
       progreso,
@@ -185,6 +214,10 @@ export function ProgresoProvider({ children }) {
       desbloquearPorExamen,
       actualizarUbicacion,
       setNombreUsuario,
+      haEnviadoOpinionTema,
+      marcarOpinionTemaEnviada,
+      marcarOpinionPlataformaEnviada,
+      reiniciarProgreso,
     }),
     [
       progreso,
@@ -198,6 +231,10 @@ export function ProgresoProvider({ children }) {
       desbloquearPorExamen,
       actualizarUbicacion,
       setNombreUsuario,
+      haEnviadoOpinionTema,
+      marcarOpinionTemaEnviada,
+      marcarOpinionPlataformaEnviada,
+      reiniciarProgreso,
     ]
   );
 
