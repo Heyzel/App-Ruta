@@ -1,8 +1,12 @@
-.control-audio {
+.control-audio-envoltura {
   position: fixed;
   bottom: 4.5rem;
   left: 1rem;
   z-index: 150;
+}
+
+.control-audio {
+  position: static;
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -22,4 +26,42 @@
 
 .control-audio--activo {
   border-color: var(--color-primario, #4f46e5);
+}
+
+.control-audio-volumen {
+  position: absolute;
+  bottom: calc(100% + 0.5rem);
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 999px;
+  background: var(--color-superficie, #1e1e2f);
+  border: 1px solid var(--color-borde, #33334d);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.control-audio-envoltura:hover .control-audio-volumen,
+.control-audio-envoltura:focus-within .control-audio-volumen {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.control-audio-volumen input[type='range'] {
+  width: 100px;
+  accent-color: var(--color-primario, #4f46e5);
+  cursor: pointer;
+}
+
+.control-audio-volumen-valor {
+  min-width: 2.4em;
+  font-size: 0.78rem;
+  opacity: 0.8;
+  font-variant-numeric: tabular-nums;
 }

@@ -1,6 +1,5 @@
 const NOTAS_EXITO = [523.25, 659.25, 783.99]; // C5, E5, G5
 const NOTAS_DESBLOQUEO = [440, 659.25]; // A4, E5 - quinta ascendente breve
-const ACORDE_MUSICA = [220, 277.18, 329.63, 440]; // A3, C#4, E4, A4
 
 export function reproducirSfx(ctx, gainMaestro, tipo) {
   if (tipo === 'exito') {
@@ -49,29 +48,4 @@ export function reproducirSfx(ctx, gainMaestro, tipo) {
   osc.connect(gain).connect(gainMaestro);
   osc.start(inicio);
   osc.stop(inicio + 0.1);
-}
-
-export function iniciarBucleMusica(ctx, gainMaestro) {
-  let indice = 0;
-  const intervalo = window.setInterval(() => {
-    const freq = ACORDE_MUSICA[indice % ACORDE_MUSICA.length];
-    indice += 1;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = 'triangle';
-    osc.frequency.value = freq;
-    const inicio = ctx.currentTime;
-    gain.gain.setValueAtTime(0, inicio);
-    gain.gain.linearRampToValueAtTime(0.4, inicio + 0.6);
-    gain.gain.exponentialRampToValueAtTime(0.0001, inicio + 2.3);
-    osc.connect(gain).connect(gainMaestro);
-    osc.start(inicio);
-    osc.stop(inicio + 2.4);
-  }, 900);
-
-  return {
-    detener() {
-      window.clearInterval(intervalo);
-    },
-  };
 }
