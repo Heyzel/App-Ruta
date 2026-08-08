@@ -5,6 +5,7 @@
   background: var(--color-superficie, #1e1e2f);
   border: 1px solid var(--color-borde, #33334d);
   transition: border-color 0.15s ease;
+  cursor: pointer;
 }
 
 .tarjeta-tema:hover {

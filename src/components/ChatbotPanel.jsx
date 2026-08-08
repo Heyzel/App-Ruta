@@ -20,13 +20,15 @@ export function ChatbotPanel() {
 
   return (
     <>
-      <button
-        className="chatbot-burbuja"
-        onClick={() => setAbierto((prev) => !prev)}
-        aria-label={abierto ? 'Cerrar a Algorimi' : 'Abrir a Algorimi'}
-      >
-        {abierto ? '✕' : '💬'}
-      </button>
+      {!abierto && (
+        <button
+          className="chatbot-burbuja"
+          onClick={() => setAbierto(true)}
+          aria-label="Abrir a Algorimi"
+        >
+          💬
+        </button>
+      )}
 
       {abierto && (
         <div className="chatbot-panel" role="dialog" aria-label="Algorimi, asistente de IA">
