@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useProgreso } from '../context/ProgresoContext';
+import { ModalNombre } from '../components/ModalNombre';
 import './Bienvenida.css';
 
 // Flujo recomendado para principiantes sin experiencia previa.
@@ -18,6 +19,7 @@ const FLUJO_RECOMENDADO = [
 export function Bienvenida() {
   const { progreso, setNombreUsuario } = useProgreso();
   const [nombre, setNombre] = useState(progreso.nombreUsuario || '');
+  const [pidiendoNombreExamen, setPidiendoNombreExamen] = useState(false);
   const navigate = useNavigate();
 
   function comenzar(evento) {
@@ -26,6 +28,14 @@ export function Bienvenida() {
     if (!limpio) return;
     setNombreUsuario(limpio);
     navigate('/temas');
+  }
+
+  function irAlExamen() {
+    if (progreso.nombreUsuario) {
+      navigate('/examen-suficiencia');
+    } else {
+      setPidiendoNombreExamen(true);
+    }
   }
 
   return (
@@ -101,6 +111,18 @@ export function Bienvenida() {
             </p>
           </div>
 
+          <div className="bienvenida-bloque">
+            <h2>¿Ya sabes algo de esto?</h2>
+            <p>
+              Si ya tienes conocimientos previos, puedes hacer un{' '}
+              <button type="button" className="bienvenida-enlace" onClick={irAlExamen}>
+                examen de suficiencia
+              </button>{' '}
+              para completar los
+              niveles que ya tengas dominados y avanzar directo a lo que te falta aprender.
+            </p>
+          </div>
+
           <div className="bienvenida-bloque bienvenida-algorimi">
             <span className="bienvenida-algorimi-icono">💬</span>
             <p>
@@ -131,6 +153,17 @@ export function Bienvenida() {
           </form>
         </div>
       </main>
+
+      {pidiendoNombreExamen && (
+        <ModalNombre
+          onGuardar={(nombreGuardado) => {
+            setNombreUsuario(nombreGuardado);
+            setPidiendoNombreExamen(false);
+            navigate('/examen-suficiencia');
+          }}
+          onCancelar={() => setPidiendoNombreExamen(false)}
+        />
+      )}
     </div>
   );
 }

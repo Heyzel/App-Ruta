@@ -114,6 +114,18 @@
   opacity: 0.9;
 }
 
+.bienvenida-enlace {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: var(--color-primario);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .bienvenida-flujo {
   list-style: none;
   display: flex;

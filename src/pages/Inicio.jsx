@@ -9,6 +9,34 @@ import { AvisoContinuar } from '../components/AvisoContinuar';
 import { ModalNombre } from '../components/ModalNombre';
 import './Inicio.css';
 
+const TITULO_INICIO_LINEAS = ['Rutas de Aprendizaje', 'Algoritmos y Programación'];
+
+function LineaOla({ texto }) {
+  return (
+    <span className="inicio-titulo-ola-linea">
+      {texto.split('').map((letra, indice) => (
+        <span
+          key={indice}
+          className="inicio-titulo-ola-letra"
+          style={{ animationDelay: `${indice * 0.05}s` }}
+        >
+          {letra === ' ' ? ' ' : letra}
+        </span>
+      ))}
+    </span>
+  );
+}
+
+function TituloOla({ lineas }) {
+  return (
+    <h1 className="inicio-titulo-ola">
+      {lineas.map((linea) => (
+        <LineaOla key={linea} texto={linea} />
+      ))}
+    </h1>
+  );
+}
+
 export function Inicio() {
   const { progreso, esNivelMarcado, esTemaMarcado, marcarTemaCompletado, setNombreUsuario } = useProgreso();
   const { playSfx } = useAudio();
@@ -54,7 +82,7 @@ export function Inicio() {
   return (
     <div className="pagina-inicio">
       <header className="inicio-encabezado">
-        <h1>Cartelera de Contenido Educativo</h1>
+        <TituloOla lineas={TITULO_INICIO_LINEAS} />
         <p>Elige un tema para comenzar a aprender programación.</p>
         {progreso.nombreUsuario && (
           <p className="inicio-usuario">
