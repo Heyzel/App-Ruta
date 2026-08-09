@@ -14,6 +14,22 @@ const COMPONENTES_POR_TIPO = {
   pareo: PreguntaPareo,
 };
 
+const ETIQUETAS_TIPO = {
+  'verdadero-falso': 'Verdadero o falso',
+  'seleccion-simple': 'Selección simple',
+  'seleccion-multiple': 'Selección múltiple',
+  numerica: 'Respuesta numérica',
+  pareo: 'Pareo',
+};
+
+const DESCRIPCIONES_TIPO = {
+  'verdadero-falso': 'Escoge verdadero o falso.',
+  'seleccion-simple': 'Escoge solo 1 respuesta correcta.',
+  'seleccion-multiple': 'Escoge todas las respuestas que consideres correctas.',
+  numerica: 'Analiza la pregunta y responde con un número.',
+  pareo: 'Escoge el par que se ajusta para cada caso.',
+};
+
 function valorInicialPara(pregunta) {
   const tipo = pregunta.tipo || 'seleccion-simple';
   if (tipo === 'seleccion-multiple') return [];
@@ -55,8 +71,21 @@ export function Quiz({ quiz, onEnviar }) {
         const ComponentePregunta = COMPONENTES_POR_TIPO[tipo];
         return (
           <fieldset key={indicePregunta} className="quiz-pregunta">
-            <legend>
-              {indicePregunta + 1}. {pregunta.enunciado}
+            <legend className="quiz-pregunta-legend">
+              <span className="quiz-pregunta-enunciado">
+                {indicePregunta + 1}. {pregunta.enunciado}
+              </span>
+              <span className="quiz-pregunta-tipo">
+                <span className="quiz-pregunta-tipo-etiqueta">{ETIQUETAS_TIPO[tipo]}</span>
+                <span className="quiz-pregunta-tipo-info" tabIndex={0}>
+                  <span className="quiz-pregunta-tipo-info-icono" aria-hidden="true">
+                    ℹ️
+                  </span>
+                  <span className="quiz-pregunta-tipo-info-tooltip" role="tooltip">
+                    {DESCRIPCIONES_TIPO[tipo]}
+                  </span>
+                </span>
+              </span>
             </legend>
             {pregunta.codigo && (
               <pre className="quiz-codigo">
