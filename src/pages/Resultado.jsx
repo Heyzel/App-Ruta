@@ -37,6 +37,7 @@ export function Resultado() {
         nombre={progreso.nombreUsuario}
         onIrSiguienteNivel={() => navigate(`/tema/${temaId}/${siguiente}`)}
         onVolverContenidos={() => navigate(`/tema/${temaId}/${dificultad}`)}
+        onVolverTema={() => navigate(`/tema/${temaId}`)}
       />
     </div>
   );

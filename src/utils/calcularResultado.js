@@ -44,7 +44,7 @@ export function calcularResultado(quiz, respuestas) {
   const nota = Math.round(((correctas / total) * 20 + Number.EPSILON) * 100) / 100;
   // Los temas sin umbral (p. ej. el tema 0 propedéutico) no reprueban: son
   // cuestionarios de práctica y siempre se consideran aprobados.
-  const aprobado = esTemaSinUmbral(quiz.tema) ? true : nota > quiz.umbralAprobacion;
+  const aprobado = esTemaSinUmbral(quiz.tema) ? true : nota >= quiz.umbralAprobacion;
 
   return { nota, aprobado, correctas, total };
 }
