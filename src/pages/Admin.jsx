@@ -156,7 +156,7 @@ export function Admin() {
                     <td>{NOMBRE_DIFICULTAD[dificultad]}</td>
                     <td>{cuestionario ? `${cuestionario.preguntas.length} preguntas` : 'Sin crear (usa JSON local)'}</td>
                     <td>
-                      <Link to={`/admin/cuestionario/${tema.id}/${dificultad}`}>
+                      <Link to={`/admin/cuestionario/${tema.id}/${dificultad}`} className="admin-tabla-boton">
                         {cuestionario ? 'Editar' : 'Crear'}
                       </Link>
                     </td>
@@ -188,7 +188,7 @@ export function Admin() {
                     <td>{NOMBRE_DIFICULTAD[dificultad]}</td>
                     <td>{contenido ? `${contenido.items.length} contenidos` : 'Sin crear (usa JSON local)'}</td>
                     <td>
-                      <Link to={`/admin/contenido/${tema.id}/${dificultad}`}>
+                      <Link to={`/admin/contenido/${tema.id}/${dificultad}`} className="admin-tabla-boton">
                         {contenido ? 'Editar' : 'Crear'}
                       </Link>
                     </td>

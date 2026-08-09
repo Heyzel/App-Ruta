@@ -45,7 +45,9 @@ export function AdminEditor() {
     return (
       <div className="pagina-admin-editor">
         <p>Tema o dificultad inválidos.</p>
-        <Link to="/admin">Volver al panel</Link>
+        <Link to="/admin" className="admin-editor-volver">
+          ← Volver al panel
+        </Link>
       </div>
     );
   }

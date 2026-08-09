@@ -16,7 +16,8 @@ export function ChatbotPanel() {
     return () => document.removeEventListener('keydown', alTecla);
   }, []);
 
-  if (location.pathname.startsWith('/admin')) return null;
+  // Se oculta en el panel de administración y en la pantalla de bienvenida.
+  if (location.pathname.startsWith('/admin') || location.pathname === '/') return null;
 
   return (
     <>

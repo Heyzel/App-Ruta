@@ -40,9 +40,10 @@ export function Bienvenida() {
 
   return (
     <div className="bienvenida">
-      <aside className="bienvenida-arte" aria-hidden="true">
+      <aside className="bienvenida-arte">
+        <h1 className="bienvenida-titulo">Tu ruta de aprendizaje personalizada</h1>
         <div className="bienvenida-arte-contenido">
-          <svg className="bienvenida-diagrama" viewBox="0 0 200 260" role="presentation">
+          <svg className="bienvenida-diagrama" viewBox="0 0 200 260" role="presentation" aria-hidden="true">
             <defs>
               <linearGradient id="grad-nodo" x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0%" stopColor="#8b5cf6" />
@@ -78,7 +79,6 @@ export function Bienvenida() {
 
       <main className="bienvenida-panel">
         <div className="bienvenida-panel-interno">
-          <h1 className="bienvenida-titulo">Tu ruta de aprendizaje personalizada</h1>
           <p className="bienvenida-intro">
             Esta plataforma te acompaña en <strong>Algoritmos y Programación</strong>. Si
             empiezas desde cero, aprenderás paso a paso; y si ya tienes conocimientos previos,

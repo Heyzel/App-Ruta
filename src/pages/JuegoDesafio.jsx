@@ -54,13 +54,15 @@ export function JuegoDesafio() {
 
   return (
     <div className="pagina-juego">
-      <Link className="juego-volver" to={rutaContenidos}>
-        ← Volver a los contenidos
-      </Link>
+      <div className="juego-cabecera">
+        <Link className="juego-volver" to={rutaContenidos}>
+          ← Volver a los contenidos
+        </Link>
 
-      <span className="juego-etiqueta">
-        {info.emoji} Desafío · {tema.nombre} · {NOMBRE_DIFICULTAD[dificultad]}
-      </span>
+        <span className="juego-etiqueta">
+          {info.emoji} Desafío · {tema.nombre} · {NOMBRE_DIFICULTAD[dificultad]}
+        </span>
+      </div>
 
       <h1 className="juego-titulo">{juego.nombre}</h1>
 
