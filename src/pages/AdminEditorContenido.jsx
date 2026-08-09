@@ -37,7 +37,9 @@ export function AdminEditorContenido() {
     return (
       <div className="pagina-admin-editor">
         <p>Tema o dificultad inválidos.</p>
-        <Link to="/admin">Volver al panel</Link>
+        <Link to="/admin" className="admin-editor-volver">
+          ← Volver al panel
+        </Link>
       </div>
     );
   }
@@ -178,19 +180,21 @@ export function AdminEditorContenido() {
             {items.length === 0 && <p className="admin-lista-vacia">Aún no hay contenidos.</p>}
           </div>
 
-          <button type="button" className="editor-boton-agregar" onClick={agregarItem}>
-            + Agregar contenido
-          </button>
+          <div className="admin-contenido-acciones">
+            <button type="button" className="admin-boton-guardar" onClick={agregarItem}>
+              + Agregar contenido
+            </button>
+
+            <button
+              className="admin-boton-guardar"
+              onClick={manejarGuardar}
+              disabled={guardando}
+            >
+              {guardando ? 'Guardando…' : 'Guardar contenidos'}
+            </button>
+          </div>
 
           {mensaje && <p className={`admin-mensaje admin-mensaje-${mensaje.tipo}`}>{mensaje.texto}</p>}
-
-          <button
-            className="admin-boton-guardar"
-            onClick={manejarGuardar}
-            disabled={guardando}
-          >
-            {guardando ? 'Guardando…' : 'Guardar contenidos'}
-          </button>
         </>
       )}
     </div>

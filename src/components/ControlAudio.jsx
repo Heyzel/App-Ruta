@@ -1,9 +1,14 @@
+import { useLocation } from 'react-router-dom';
 import { useAudio } from '../context/AudioContext';
 import './ControlAudio.css';
 
 export function ControlAudio() {
+  const location = useLocation();
   const { musicaActiva, volumen, toggleMusica, setVolumen } = useAudio();
   const porcentaje = Math.round(volumen * 100);
+
+  // Se oculta en la pantalla de bienvenida.
+  if (location.pathname === '/') return null;
 
   return (
     <div className="control-audio-envoltura">

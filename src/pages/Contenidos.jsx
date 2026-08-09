@@ -45,6 +45,10 @@ export function Contenidos() {
 
   return (
     <div className="pagina-contenidos">
+      <Link className="contenidos-volver" to={`/tema/${temaId}`}>
+        ← Regresar a {tema.nombre}
+      </Link>
+
       <h1>
         {tema.nombre} · {NOMBRE_DIFICULTAD[dificultad]}
       </h1>

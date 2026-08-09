@@ -53,6 +53,14 @@
   font-family: inherit;
 }
 
+.admin-contenido-acciones {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
 .admin-contenido-eliminar {
   flex: 0 0 auto;
   border: none;
