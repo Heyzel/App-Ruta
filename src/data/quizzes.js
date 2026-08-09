@@ -1,5 +1,5 @@
 // Quices por tema y dificultad, en el contexto del lenguaje C++.
-// Umbral de aprobación en escala 0-20 (aprueba si nota > umbral).
+// Umbral de aprobación en escala 0-20 (aprueba si nota >= umbral).
 // Distribución por nivel:
 //   principiante (8): 3 verdadero-falso, 3 selección-simple, 2 selección-múltiple
 //   intermedio  (10): 2 verdadero-falso, 3 selección-simple, 3 selección-múltiple, 2 pareo
