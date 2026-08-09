@@ -3,7 +3,16 @@ import { NOMBRE_DIFICULTAD } from '../data/temas';
 import { useAudio } from '../context/AudioContext';
 import './Feedback.css';
 
-export function Feedback({ tema, dificultad, resultado, siguiente, nombre, onIrSiguienteNivel, onVolverContenidos }) {
+export function Feedback({
+  tema,
+  dificultad,
+  resultado,
+  siguiente,
+  nombre,
+  onIrSiguienteNivel,
+  onVolverContenidos,
+  onVolverTema,
+}) {
   const { nota, aprobado, correctas, total } = resultado;
   const { playSfx } = useAudio();
   const yaSonoRef = useRef(false);
@@ -43,6 +52,10 @@ export function Feedback({ tema, dificultad, resultado, siguiente, nombre, onIrS
           <button onClick={onVolverContenidos}>Volver a los contenidos</button>
         </>
       )}
+
+      <button className="feedback-boton-secundario" onClick={onVolverTema}>
+        Regresar a {tema.nombre}
+      </button>
     </div>
   );
 }
