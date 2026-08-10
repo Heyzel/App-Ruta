@@ -10,30 +10,34 @@ import { ModalNombre } from '../components/ModalNombre';
 import { CajaOpinionPlataforma } from '../components/CajaOpinionPlataforma';
 import './Inicio.css';
 
-const TITULO_INICIO_LINEAS = ['Rutas de Aprendizaje', 'Algoritmos y Programación'];
+const TITULO_INICIO_TEXTO = 'Rutas de Aprendizaje - Algoritmos y Programación';
+const TITULO_INICIO_PALABRAS = TITULO_INICIO_TEXTO.split(' ');
 
-function LineaOla({ texto }) {
+function PalabraOla({ palabra, indiceInicial }) {
   return (
-    <span className="inicio-titulo-ola-linea">
-      {texto.split('').map((letra, indice) => (
+    <span className="inicio-titulo-ola-palabra">
+      {palabra.split('').map((letra, indice) => (
         <span
           key={indice}
           className="inicio-titulo-ola-letra"
-          style={{ animationDelay: `${indice * 0.05}s` }}
+          style={{ animationDelay: `${(indiceInicial + indice) * 0.05}s` }}
         >
-          {letra === ' ' ? ' ' : letra}
+          {letra}
         </span>
       ))}
     </span>
   );
 }
 
-function TituloOla({ lineas }) {
+function TituloOla({ palabras }) {
+  let contadorLetras = 0;
   return (
     <h1 className="inicio-titulo-ola">
-      {lineas.map((linea) => (
-        <LineaOla key={linea} texto={linea} />
-      ))}
+      {palabras.map((palabra, indice) => {
+        const indiceInicial = contadorLetras;
+        contadorLetras += palabra.length;
+        return <PalabraOla key={indice} palabra={palabra} indiceInicial={indiceInicial} />;
+      })}
     </h1>
   );
 }
@@ -101,7 +105,7 @@ export function Inicio() {
   return (
     <div className="pagina-inicio">
       <header className="inicio-encabezado">
-        <TituloOla lineas={TITULO_INICIO_LINEAS} />
+        <TituloOla palabras={TITULO_INICIO_PALABRAS} />
         <p>Elige un tema para comenzar a aprender programación.</p>
         {progreso.nombreUsuario && (
           <p className="inicio-usuario">

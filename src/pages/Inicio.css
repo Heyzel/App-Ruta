@@ -65,12 +65,15 @@
 .inicio-titulo-ola {
   margin-bottom: 0.5rem;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.15em 0.35em;
+  text-align: center;
 }
 
-.inicio-titulo-ola-linea {
-  display: block;
+.inicio-titulo-ola-palabra {
+  display: inline-flex;
 }
 
 .inicio-titulo-ola-letra {
@@ -98,6 +101,12 @@
 
 .inicio-encabezado p {
   opacity: 0.8;
+}
+
+@media (max-width: 480px) {
+  .inicio-titulo-ola {
+    font-size: clamp(1.05rem, 6.5vw, 1.5rem);
+  }
 }
 
 .inicio-usuario {

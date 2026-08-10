@@ -264,3 +264,35 @@
     padding: 2rem 1.5rem 3rem;
   }
 }
+
+@media (max-width: 480px) {
+  .bienvenida-titulo {
+    grid-template-columns: 1fr;
+    row-gap: 0.1rem;
+  }
+
+  .bienvenida-titulo-de,
+  .bienvenida-titulo-rutas,
+  .bienvenida-titulo-aprendizaje {
+    grid-column: 1;
+    font-size: clamp(1.5rem, 9vw, 2rem);
+  }
+
+  .bienvenida-titulo-rutas {
+    grid-row: 1;
+  }
+
+  .bienvenida-titulo-de {
+    grid-row: 2;
+    align-self: auto;
+  }
+
+  .bienvenida-titulo-aprendizaje {
+    grid-row: 3;
+  }
+
+  .bienvenida-titulo-personalizadas {
+    grid-row: 4;
+    font-size: clamp(0.8rem, 4.2vw, 1.1rem);
+  }
+}
