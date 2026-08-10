@@ -41,40 +41,12 @@ export function Bienvenida() {
   return (
     <div className="bienvenida">
       <aside className="bienvenida-arte">
-        <h1 className="bienvenida-titulo">Tu ruta de aprendizaje personalizada</h1>
-        <div className="bienvenida-arte-contenido">
-          <svg className="bienvenida-diagrama" viewBox="0 0 200 260" role="presentation" aria-hidden="true">
-            <defs>
-              <linearGradient id="grad-nodo" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#8b5cf6" />
-                <stop offset="100%" stopColor="#4f46e5" />
-              </linearGradient>
-            </defs>
-            {/* Conexiones del flujo */}
-            <path d="M100 40 L100 78" className="bienvenida-linea" />
-            <path d="M100 118 L100 156" className="bienvenida-linea" />
-            <path d="M100 196 L100 220" className="bienvenida-linea" />
-            {/* Inicio */}
-            <ellipse cx="100" cy="24" rx="46" ry="18" fill="url(#grad-nodo)" />
-            <text x="100" y="29" className="bienvenida-nodo-texto">inicio</text>
-            {/* Decisión */}
-            <polygon points="100,60 140,98 100,136 60,98" fill="url(#grad-nodo)" opacity="0.9" />
-            <text x="100" y="102" className="bienvenida-nodo-texto">¿sabes?</text>
-            {/* Proceso */}
-            <rect x="54" y="158" width="92" height="38" rx="8" fill="url(#grad-nodo)" opacity="0.85" />
-            <text x="100" y="181" className="bienvenida-nodo-texto">aprender</text>
-            {/* Fin */}
-            <ellipse cx="100" cy="238" rx="46" ry="18" fill="url(#grad-nodo)" />
-            <text x="100" y="243" className="bienvenida-nodo-texto">dominar</text>
-          </svg>
-          <pre className="bienvenida-codigo">
-{`for (tema : ruta) {
-  if (!dominas(tema))
-    aprende(tema);
-}`}
-          </pre>
-          <p className="bienvenida-arte-lema">Algoritmos y Programación</p>
-        </div>
+        <h1 className="bienvenida-titulo">
+          <span className="bienvenida-titulo-de">DE</span>
+          <span className="bienvenida-titulo-rutas">RUTAS</span>
+          <span className="bienvenida-titulo-aprendizaje">APRENDIZAJE</span>
+          <span className="bienvenida-titulo-personalizadas">PERSONALIZADAS</span>
+        </h1>
       </aside>
 
       <main className="bienvenida-panel">
