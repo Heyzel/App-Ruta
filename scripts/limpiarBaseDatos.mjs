@@ -1,7 +1,9 @@
-// Ejecutar con: node scripts/limpiarBaseDatos.mjs        -> vacía solo la tabla `resultados`
-//               node scripts/limpiarBaseDatos.mjs --todo -> además vacía `cuestionarios` y `contenidos`
+// Ejecutar con: node scripts/limpiarBaseDatos.mjs
+// Vacía únicamente las tablas de datos generados por el uso de la plataforma
+// (resultados, resultados_examen, consultas_contenido, opiniones_tema,
+// opiniones_plataforma). Nunca toca `cuestionarios` ni `contenidos`.
 // Requiere que .env tenga VITE_SUPABASE_URL y VITE_SUPABASE_ANON_KEY definidos.
-// Nota: la tabla `resultados` necesita la política de delete de scripts/esquema.sql.
+// Nota: cada tabla necesita su política de delete de scripts/esquema.sql.
 import { createClient } from '@supabase/supabase-js';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -27,7 +29,6 @@ if (!env.VITE_SUPABASE_URL || !env.VITE_SUPABASE_ANON_KEY) {
 }
 
 const supabase = createClient(env.VITE_SUPABASE_URL, env.VITE_SUPABASE_ANON_KEY);
-const limpiarTodo = process.argv.includes('--todo');
 
 // Filtro que selecciona todas las filas (id distinto de un UUID imposible).
 const TODAS = ['id', '00000000-0000-0000-0000-000000000000'];
@@ -42,17 +43,12 @@ async function vaciar(tabla) {
 }
 
 async function limpiar() {
-  console.log('Limpiando base de datos…');
+  console.log('Limpiando datos de uso (no se tocan cuestionarios ni contenidos)…');
   await vaciar('resultados');
+  await vaciar('resultados_examen');
   await vaciar('consultas_contenido');
   await vaciar('opiniones_tema');
   await vaciar('opiniones_plataforma');
-  if (limpiarTodo) {
-    console.log('Modo --todo: también se vaciarán cuestionarios y contenidos.');
-    await vaciar('cuestionarios');
-    await vaciar('contenidos');
-    console.log('Recuerda volver a sembrar con: npm run seed');
-  }
   console.log('Limpieza completada.');
 }
 
