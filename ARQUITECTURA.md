@@ -200,7 +200,7 @@ Es independiente del resto del sistema — no pasa por la capa de servicios ni p
 **Carpeta:** `scripts/`
 
 - `seedCuestionarios.mjs` / `seedContenidos.mjs` — leen `src/data/*.js` y hacen `upsert` directo en Supabase con la clave anónima (leen `.env` manualmente con `fs.readFileSync`, no usan Vite).
-- `limpiarBaseDatos.mjs` — vacía `resultados` y `consultas_contenido` (o también `cuestionarios`/`contenidos` con `--todo`).
+- `limpiarBaseDatos.mjs` — vacía las tablas de datos de uso (`resultados`, `resultados_examen`, `consultas_contenido`, `opiniones_tema`, `opiniones_plataforma`); nunca toca `cuestionarios` ni `contenidos`.
 
 Se ejecutan con `npm run seed` / `npm run db:limpiar`, nunca desde la app en producción.
 

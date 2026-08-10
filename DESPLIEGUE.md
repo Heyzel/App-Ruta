@@ -69,8 +69,7 @@ npm run seed
 Para vaciar los resultados de prueba antes de una demo:
 
 ```bash
-npm run db:limpiar          # vacía solo la tabla `resultados`
-node scripts/limpiarBaseDatos.mjs --todo   # además vacía cuestionarios y contenidos
+npm run db:limpiar          # vacía resultados, resultados_examen, consultas_contenido, opiniones_tema y opiniones_plataforma
 ```
 
 ---
