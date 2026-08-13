@@ -30,8 +30,9 @@ export function ContadorInsignias() {
     return () => window.clearTimeout(temporizador);
   }, [estrella, medalla, trofeo]);
 
-  // El panel de administración no es parte de la ruta del estudiante.
-  if (location.pathname.startsWith('/admin')) return null;
+  // Se oculta en la bienvenida (todavía no hay progreso que mostrar) y en el
+  // panel de administración (no es parte de la ruta del estudiante).
+  if (location.pathname === '/' || location.pathname.startsWith('/admin')) return null;
 
   // El botón "Inicio" también vive arriba a la derecha; cuando está visible
   // (todas las rutas menos la bienvenida y la cartelera) el contador baja

@@ -5,6 +5,41 @@
   z-index: 150;
 }
 
+/* En la cartelera de temas, vista de teléfono: se oculta el widget flotante
+   porque Inicio.jsx ya muestra la copia in-line (--fila) junto al botón de
+   examen de suficiencia. En pantallas más grandes no cambia nada. */
+@media (max-width: 480px) {
+  .control-audio-envoltura--cartelera {
+    display: none;
+  }
+}
+
+/* Copia in-line usada solo por Inicio.jsx, oculta salvo en vista de
+   teléfono, donde reemplaza al widget flotante de arriba. position:relative
+   (no static) para seguir sirviendo de ancla al popover de volumen, que es
+   absolute respecto de este contenedor. */
+.control-audio-envoltura--fila {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .control-audio-envoltura--fila {
+    display: inline-flex;
+    position: relative;
+    bottom: auto;
+    left: auto;
+    z-index: auto;
+  }
+
+  /* Este botón vive arriba de la página (no abajo, como el widget
+     flotante), así que el popover abre hacia abajo para no salirse del
+     viewport por arriba. */
+  .control-audio-envoltura--fila .control-audio-volumen {
+    bottom: auto;
+    top: calc(100% + 0.5rem);
+  }
+}
+
 .control-audio {
   position: static;
   width: 48px;

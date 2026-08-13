@@ -4,11 +4,22 @@
   padding: 2rem 1.5rem 4rem;
 }
 
+/* Fila del encabezado que contiene el botón de examen de suficiencia y, solo
+   en vista de teléfono, los iconos de música y opinión a sus lados (ver
+   ControlAudio.css / CajaOpinion.css). En pantallas más grandes esos dos
+   iconos no ocupan espacio aquí: siguen flotando en su esquina de siempre. */
+.examen-suficiencia-fila {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
 .examen-suficiencia-boton {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  margin-top: 1rem;
   padding: 0.55rem 1rem;
   border-radius: 999px;
   border: 1px solid rgba(127, 127, 127, 0.3);
