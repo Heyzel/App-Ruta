@@ -75,6 +75,26 @@
   transform: translateY(0);
 }
 
+/* En la cartelera de temas, vista de teléfono: este botón vive dentro de
+   .examen-suficiencia-fila, a la derecha del examen de suficiencia, en vez
+   de flotar en la esquina inferior izquierda (ver Inicio.jsx). Se usa
+   position: relative (no static) para que el tooltip de "bloqueada", que es
+   absolute, siga anclado a este contenedor. El panel deslizante
+   (.caja-opinion-panel) no se toca: sigue siendo el mismo overlay fijo. */
+@media (max-width: 480px) {
+  .examen-suficiencia-fila .caja-opinion-boton,
+  .examen-suficiencia-fila .caja-opinion-tooltip-envoltura {
+    position: relative;
+    bottom: auto;
+    left: auto;
+  }
+
+  .examen-suficiencia-fila .caja-opinion-tooltip {
+    left: auto;
+    right: 0;
+  }
+}
+
 .caja-opinion-panel {
   position: fixed;
   top: 0;

@@ -8,6 +8,7 @@ import { Ruta } from '../components/Ruta';
 import { AvisoContinuar } from '../components/AvisoContinuar';
 import { ModalNombre } from '../components/ModalNombre';
 import { CajaOpinionPlataforma } from '../components/CajaOpinionPlataforma';
+import { BotonAudio } from '../components/ControlAudio';
 import './Inicio.css';
 
 const TITULO_INICIO_TEXTO = 'Rutas de Aprendizaje - Algoritmos y Programación';
@@ -57,6 +58,15 @@ export function Inicio() {
   const navigate = useNavigate();
   // Un hueco por tema: es el sitio al que vuela la medalla.
   const slotsInsignia = useRef({});
+
+  // Se habilita la opinión general de la plataforma cuando el estudiante
+  // completó (o exoneró con el examen de suficiencia) al menos un nivel de
+  // cada tema, incluyendo el propedéutico opcional. Se calcula aquí arriba
+  // (y no junto al resto de nodosTemas) porque CajaOpinionPlataforma se
+  // renderiza en el encabezado, junto al botón de examen de suficiencia.
+  const puedeOpinarPlataforma = TEMAS.every((tema) =>
+    DIFICULTADES.some((dificultad) => esNivelMarcado(tema.id, dificultad))
+  );
 
   function manejarMarcarTema(temaId) {
     marcarTemaCompletado(temaId);
@@ -130,13 +140,6 @@ export function Inicio() {
     }, DURACION_VUELO);
   }, [rutaCompleta, progreso.trofeoCelebrado, marcarTrofeoCelebrado, celebrarTrofeo]);
 
-  // Se habilita la opinión general de la plataforma cuando el estudiante
-  // completó (o exoneró con el examen de suficiencia) al menos un nivel de
-  // cada tema, incluyendo el propedéutico opcional.
-  const puedeOpinarPlataforma = TEMAS.every((tema) =>
-    DIFICULTADES.some((dificultad) => esNivelMarcado(tema.id, dificultad))
-  );
-
   return (
     <div className="pagina-inicio">
       <header className="inicio-encabezado">
@@ -151,21 +154,32 @@ export function Inicio() {
           </p>
         )}
 
-        <Link
-          to="/examen-suficiencia"
-          className="examen-suficiencia-boton"
-          title={
-            progreso.examenPresentado
-              ? 'Ya presentaste el examen. Puedes repetirlo para repasar tu nivel (no desbloquea niveles nuevos).'
-              : 'Presenta el examen de suficiencia'
-          }
-        >
-          <span className="examen-suficiencia-icono" aria-hidden="true">📝</span>
-          <span className="examen-suficiencia-texto">Examen de suficiencia</span>
-          {progreso.examenPresentado && (
-            <span className="examen-suficiencia-check" aria-hidden="true">✓</span>
-          )}
-        </Link>
+        {/* En vista de teléfono, el control de música y la opinión de la
+            plataforma se muestran a los lados del examen de suficiencia en
+            vez de flotar en su esquina habitual (ver ControlAudio.css /
+            CajaOpinion.css). En pantallas más grandes no cambia nada: ambos
+            siguen flotando donde siempre. */}
+        <div className="examen-suficiencia-fila">
+          <BotonAudio className="control-audio-envoltura--fila" />
+
+          <Link
+            to="/examen-suficiencia"
+            className="examen-suficiencia-boton"
+            title={
+              progreso.examenPresentado
+                ? 'Ya presentaste el examen. Puedes repetirlo para repasar tu nivel (no desbloquea niveles nuevos).'
+                : 'Presenta el examen de suficiencia'
+            }
+          >
+            <span className="examen-suficiencia-icono" aria-hidden="true">📝</span>
+            <span className="examen-suficiencia-texto">Examen de suficiencia</span>
+            {progreso.examenPresentado && (
+              <span className="examen-suficiencia-check" aria-hidden="true">✓</span>
+            )}
+          </Link>
+
+          <CajaOpinionPlataforma puedeOpinar={puedeOpinarPlataforma} />
+        </div>
       </header>
 
       <AvisoContinuar ultimaUbicacion={progreso.ultimaUbicacion} />
@@ -188,8 +202,6 @@ export function Inicio() {
           onCancelar={progreso.nombreUsuario ? () => setEditandoNombre(false) : undefined}
         />
       )}
-
-      <CajaOpinionPlataforma puedeOpinar={puedeOpinarPlataforma} />
     </div>
   );
 }

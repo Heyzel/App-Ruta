@@ -2,16 +2,16 @@ import { useLocation } from 'react-router-dom';
 import { useAudio } from '../context/AudioContext';
 import './ControlAudio.css';
 
-export function ControlAudio() {
-  const location = useLocation();
+// Botón de silenciar/reproducir + popover de volumen. Se usa tanto en el
+// widget flotante global de aquí abajo como, en vista de teléfono, dentro de
+// la cartelera de temas junto al botón de examen de suficiencia (ver
+// Inicio.jsx) — ambos leen el mismo AudioContext, así que quedan en sync.
+export function BotonAudio({ className = '' }) {
   const { musicaActiva, volumen, toggleMusica, setVolumen } = useAudio();
   const porcentaje = Math.round(volumen * 100);
 
-  // Se oculta en la pantalla de bienvenida.
-  if (location.pathname === '/') return null;
-
   return (
-    <div className="control-audio-envoltura">
+    <div className={`control-audio-envoltura ${className}`.trim()}>
       <button
         type="button"
         className={`control-audio${musicaActiva ? ' control-audio--activo' : ''}`}
@@ -35,4 +35,18 @@ export function ControlAudio() {
       </div>
     </div>
   );
+}
+
+export function ControlAudio() {
+  const location = useLocation();
+
+  // Se oculta en la pantalla de bienvenida.
+  if (location.pathname === '/') return null;
+
+  // En la cartelera de temas, vista de teléfono, este widget flotante se
+  // oculta: Inicio.jsx muestra una copia in-line junto al botón de examen de
+  // suficiencia (ver .control-audio-envoltura--fila en ControlAudio.css).
+  const enCartelera = location.pathname === '/temas';
+
+  return <BotonAudio className={enCartelera ? 'control-audio-envoltura--cartelera' : ''} />;
 }
