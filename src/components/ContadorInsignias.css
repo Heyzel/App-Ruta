@@ -82,6 +82,19 @@
   }
 }
 
+/* En vista de teléfono, esta cajita vive dentro de .barra-superior-movil,
+   al lado del botón "Inicio", al comienzo del flujo normal de la página (no
+   flotando debajo de él): se desplaza con el scroll como el resto del
+   contenido (ver App.css). */
+@media (max-width: 480px) {
+  .barra-superior-movil .contador-insignias,
+  .barra-superior-movil .contador-insignias--bajo {
+    position: static;
+    top: auto;
+    right: auto;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .contador-chip--gana,
   .contador-chip--gana .insignia {

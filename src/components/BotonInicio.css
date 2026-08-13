@@ -19,3 +19,15 @@
   background: var(--color-primario-hover, #4338ca);
   transform: translateY(-1px);
 }
+
+/* En vista de teléfono, este botón vive dentro de .barra-superior-movil,
+   junto a la cajita de logros, al comienzo del flujo normal de la página
+   (no flotando en la esquina): se desplaza con el scroll como el resto del
+   contenido (ver App.css). */
+@media (max-width: 480px) {
+  .barra-superior-movil .boton-inicio {
+    position: static;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.8rem;
+  }
+}

@@ -1,0 +1,21 @@
+/* Envoltura del botón "Inicio" + la cajita de logros. En pantallas grandes
+   no debe alterar el layout: display:contents la saca del flujo y sus hijos
+   siguen flotando (position: fixed) cada uno por su lado, como siempre.
+   Solo en vista de teléfono se convierte en una fila horizontal al comienzo
+   del flujo normal de la página (no position: fixed), con ambos elementos
+   lado a lado en vez de uno debajo del otro: al hacer scroll hacia abajo,
+   la fila se desplaza junto con el resto del contenido y desaparece de la
+   pantalla (ver overrides de posición en BotonInicio.css / ContadorInsignias.css). */
+.barra-superior-movil {
+  display: contents;
+}
+
+@media (max-width: 480px) {
+  .barra-superior-movil {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: 0.6rem 0.6rem 0;
+  }
+}
