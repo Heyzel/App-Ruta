@@ -3,6 +3,8 @@ import { BotonInicio } from './components/BotonInicio';
 import { ChatbotPanel } from './components/ChatbotPanel';
 import { FondoAnimado } from './components/FondoAnimado';
 import { ControlAudio } from './components/ControlAudio';
+import { ContadorInsignias } from './components/ContadorInsignias';
+import { CapaRecompensas } from './components/CapaRecompensas';
 import { Bienvenida } from './pages/Bienvenida';
 import { Inicio } from './pages/Inicio';
 import { ExamenSuficiencia } from './pages/ExamenSuficiencia';
@@ -22,6 +24,7 @@ function App() {
       <BotonInicio />
       <ChatbotPanel />
       <ControlAudio />
+      <ContadorInsignias />
       <Routes>
         <Route path="/" element={<Bienvenida />} />
         <Route path="/temas" element={<Inicio />} />
@@ -35,6 +38,7 @@ function App() {
         <Route path="/admin/cuestionario/:temaId/:dificultad" element={<AdminEditor />} />
         <Route path="/admin/contenido/:temaId/:dificultad" element={<AdminEditorContenido />} />
       </Routes>
+      <CapaRecompensas />
     </>
   );
 }

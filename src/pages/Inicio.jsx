@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useProgreso } from '../context/ProgresoContext';
-import { useAudio } from '../context/AudioContext';
+import { useRecompensas, DURACION_VUELO } from '../context/RecompensasContext';
 import { TEMAS, DIFICULTADES } from '../data/temas';
 import { TarjetaTema } from '../components/TarjetaTema';
 import { Ruta } from '../components/Ruta';
@@ -43,15 +43,28 @@ function TituloOla({ palabras }) {
 }
 
 export function Inicio() {
-  const { progreso, esNivelMarcado, esTemaMarcado, marcarTemaCompletado, setNombreUsuario, reiniciarProgreso } =
-    useProgreso();
-  const { playSfx } = useAudio();
+  const {
+    progreso,
+    esNivelMarcado,
+    esTemaMarcado,
+    marcarTemaCompletado,
+    marcarTrofeoCelebrado,
+    setNombreUsuario,
+    reiniciarProgreso,
+  } = useProgreso();
+  const { celebrarInsignia, celebrarTrofeo } = useRecompensas();
   const [editandoNombre, setEditandoNombre] = useState(false);
   const navigate = useNavigate();
+  // Un hueco por tema: es el sitio al que vuela la medalla.
+  const slotsInsignia = useRef({});
 
   function manejarMarcarTema(temaId) {
-    playSfx('desbloqueo');
     marcarTemaCompletado(temaId);
+    // La medalla solo existe una vez marcado el tema: se mide su posición en
+    // el frame siguiente, cuando React ya la pintó.
+    requestAnimationFrame(() => {
+      celebrarInsignia('medalla', slotsInsignia.current[temaId]);
+    });
   }
 
   function manejarReiniciarProgreso() {
@@ -77,6 +90,9 @@ export function Inicio() {
           opcional={Boolean(tema.desbloqueadoCompleto)}
           puedeMarcar={puedeMarcar}
           onMarcarCompletado={() => manejarMarcarTema(tema.id)}
+          refInsignia={(elemento) => {
+            slotsInsignia.current[tema.id] = elemento;
+          }}
         />
       ),
     };
@@ -94,6 +110,25 @@ export function Inicio() {
     }
     return idx;
   })();
+
+  // Trofeo: se celebra cuando los 9 temas están marcados. Vive en un efecto
+  // (y no en manejarMarcarTema) para que también lo reciba quien completó la
+  // ruta antes de que existieran las recompensas, al volver a la cartelera.
+  // La espera deja que la medalla del último tema termine de aterrizar.
+  const rutaCompleta = TEMAS.every((tema) => esTemaMarcado(tema.id));
+  const trofeoLanzado = useRef(false);
+
+  useEffect(() => {
+    if (!rutaCompleta || progreso.trofeoCelebrado || trofeoLanzado.current) return;
+    // El temporizador no se cancela al re-renderizar a propósito: la marca
+    // en el progreso vuelve a entrar en este efecto y lo cancelaría antes de
+    // que llegue a disparar. `trofeoLanzado` es lo que evita duplicados.
+    trofeoLanzado.current = true;
+    window.setTimeout(() => {
+      marcarTrofeoCelebrado();
+      celebrarTrofeo();
+    }, DURACION_VUELO);
+  }, [rutaCompleta, progreso.trofeoCelebrado, marcarTrofeoCelebrado, celebrarTrofeo]);
 
   // Se habilita la opinión general de la plataforma cuando el estudiante
   // completó (o exoneró con el examen de suficiencia) al menos un nivel de
