@@ -32,7 +32,14 @@
 .nivel-acciones {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.5rem;
+}
+
+/* Sitio de la estrella del nivel: es también el destino del sprite que
+   vuela al marcar el nivel como completado (ver CapaRecompensas). */
+.nivel-insignia {
+  display: inline-flex;
 }
 
 .nivel-boton {

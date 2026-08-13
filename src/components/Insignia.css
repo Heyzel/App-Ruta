@@ -1,0 +1,12 @@
+/* Los sprites de public/insignias/ son PNG con canal alfa, así que se
+   dibujan directamente sobre el fondo sin ninguna ficha detrás.
+   No se usa image-rendering: pixelated a propósito: los archivos son pixel
+   art ya rasterizado a gran tamaño (1000-2160 px) y aquí se muestran a
+   26-168 px; al reducir, el suavizado normal del navegador conserva mucho
+   mejor la forma que el vecino más cercano. */
+.insignia {
+  display: block;
+  flex: none;
+  object-fit: contain;
+  user-select: none;
+}

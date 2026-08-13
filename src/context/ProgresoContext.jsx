@@ -19,6 +19,7 @@ function estadoInicial() {
     ultimaUbicacion: null,
     nombreUsuario: '',
     examenPresentado: false,
+    trofeoCelebrado: false,
     opinionesTemaEnviadas: [],
     opinionPlataformaEnviada: false,
   };
@@ -86,6 +87,13 @@ export function ProgresoProvider({ children }) {
     },
     [setProgreso]
   );
+
+  // El trofeo de la ruta completa se celebra una sola vez (la insignia y el
+  // contador sí quedan para siempre): esta marca evita que el modal vuelva a
+  // salir en cada visita a la cartelera de temas.
+  const marcarTrofeoCelebrado = useCallback(() => {
+    setProgreso((prev) => (prev.trofeoCelebrado ? prev : { ...prev, trofeoCelebrado: true }));
+  }, [setProgreso]);
 
   const registrarResultado = useCallback(
     (temaId, dificultad, resultado) => {
@@ -210,6 +218,7 @@ export function ProgresoProvider({ children }) {
       marcarNivelCompletado,
       esTemaMarcado,
       marcarTemaCompletado,
+      marcarTrofeoCelebrado,
       registrarResultado,
       desbloquearPorExamen,
       actualizarUbicacion,
@@ -227,6 +236,7 @@ export function ProgresoProvider({ children }) {
       marcarNivelCompletado,
       esTemaMarcado,
       marcarTemaCompletado,
+      marcarTrofeoCelebrado,
       registrarResultado,
       desbloquearPorExamen,
       actualizarUbicacion,

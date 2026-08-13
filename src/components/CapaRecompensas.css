@@ -1,0 +1,220 @@
+/* Capa por encima de todo lo demás (el chatbot usa z-index 190/200). No
+   captura clics: solo el modal del trofeo los vuelve a habilitar. */
+.capa-recompensas {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  pointer-events: none;
+}
+
+/* ---------- Sprite que vuela hasta su sitio ---------- */
+
+/* Aparece grande en el centro de la pantalla, se sostiene un momento y viaja
+   encogiéndose hasta (--destino-x, --destino-y), que es el hueco reservado
+   junto al botón de completado. El orden de las transformaciones importa:
+   translate → rotate → scale → translate(-50%, -50%) hace que el sprite gire
+   y escale respecto de su propio centro y aterrice centrado en el destino. */
+.insignia-vuelo {
+  position: fixed;
+  left: 0;
+  top: 0;
+  filter: drop-shadow(0 0 20px rgba(250, 204, 21, 0.8));
+  animation: insignia-vuelo 1.7s linear forwards;
+}
+
+@keyframes insignia-vuelo {
+  0% {
+    transform: translate(50vw, 50vh) rotate(0deg) scale(0.2) translate(-50%, -50%);
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  12% {
+    transform: translate(50vw, 50vh) rotate(0deg) scale(1.15) translate(-50%, -50%);
+    opacity: 1;
+    animation-timing-function: ease-out;
+  }
+  20% {
+    transform: translate(50vw, 50vh) rotate(0deg) scale(1) translate(-50%, -50%);
+    opacity: 1;
+  }
+  45% {
+    transform: translate(50vw, 50vh) rotate(0deg) scale(1) translate(-50%, -50%);
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.55, -0.15, 0.35, 1);
+  }
+  100% {
+    transform: translate(var(--destino-x), var(--destino-y)) rotate(360deg)
+      scale(var(--escala-final)) translate(-50%, -50%);
+    opacity: 1;
+  }
+}
+
+/* ---------- Modal del trofeo ---------- */
+
+.trofeo-fondo {
+  position: fixed;
+  inset: 0;
+  z-index: 410;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  overflow: hidden;
+  pointer-events: auto;
+  background: rgba(8, 8, 18, 0.82);
+  backdrop-filter: blur(4px);
+  animation: trofeo-fondo-entra 0.35s ease-out both;
+}
+
+@keyframes trofeo-fondo-entra {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.trofeo-tarjeta {
+  position: relative;
+  width: min(560px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 2rem 1.75rem 1.75rem;
+  text-align: center;
+  border-radius: 18px;
+  border: 1px solid var(--color-borde, #33334d);
+  background: var(--color-superficie, #1e1e2f);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  animation: trofeo-tarjeta-entra 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes trofeo-tarjeta-entra {
+  from { opacity: 0; transform: scale(0.7) translateY(24px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Resplandor giratorio detrás del trofeo. */
+.trofeo-halo {
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  width: 300px;
+  height: 300px;
+  margin-left: -150px;
+  border-radius: 50%;
+  background: conic-gradient(
+    rgba(250, 204, 21, 0.35),
+    rgba(250, 204, 21, 0) 25%,
+    rgba(250, 204, 21, 0.35) 50%,
+    rgba(250, 204, 21, 0) 75%,
+    rgba(250, 204, 21, 0.35)
+  );
+  filter: blur(6px);
+  animation: trofeo-halo-gira 9s linear infinite;
+}
+
+@keyframes trofeo-halo-gira {
+  to { transform: rotate(360deg); }
+}
+
+.trofeo-sprite {
+  position: relative;
+  margin: 0 auto 1rem;
+  filter: drop-shadow(0 0 24px rgba(250, 204, 21, 0.6));
+  animation: trofeo-sprite-entra 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+    trofeo-sprite-flota 2.8s ease-in-out 0.7s infinite alternate;
+}
+
+@keyframes trofeo-sprite-entra {
+  from { opacity: 0; transform: scale(0.2) rotate(-25deg); }
+  to { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+@keyframes trofeo-sprite-flota {
+  from { transform: translateY(0); }
+  to { transform: translateY(-10px); }
+}
+
+.trofeo-titulo {
+  position: relative;
+  margin: 0 0 0.75rem;
+  font-size: 1.5rem;
+  color: #facc15;
+}
+
+.trofeo-mensaje {
+  position: relative;
+  margin: 0 0 0.6rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+.trofeo-boton {
+  position: relative;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 8px;
+  padding: 0.65rem 1.6rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: #fff;
+  background: var(--color-primario, #4f46e5);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.trofeo-boton:hover {
+  background: var(--color-primario-hover, #4338ca);
+  transform: translateY(-1px);
+}
+
+/* ---------- Confeti ---------- */
+
+.confeti {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.confeti-pieza {
+  position: absolute;
+  top: -8%;
+  border-radius: 2px;
+  opacity: 0;
+  animation-name: confeti-cae;
+  animation-timing-function: linear;
+  animation-iteration-count: 3;
+}
+
+@keyframes confeti-cae {
+  0% { opacity: 0; transform: translateY(0) translateX(0) rotate(0deg); }
+  8% { opacity: 1; }
+  90% { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform: translateY(112vh) translateX(60px) rotate(720deg);
+  }
+}
+
+/* Quien pide menos movimiento recibe la recompensa igual, pero sin el vuelo
+   ni el confeti: solo una aparición breve. */
+@media (prefers-reduced-motion: reduce) {
+  .insignia-vuelo {
+    animation-duration: 0.9s;
+    animation-name: insignia-aparece;
+  }
+
+  @keyframes insignia-aparece {
+    0%, 100% { opacity: 0; transform: translate(50vw, 50vh) scale(0.9) translate(-50%, -50%); }
+    25%, 70% { opacity: 1; transform: translate(50vw, 50vh) scale(1) translate(-50%, -50%); }
+  }
+
+  .confeti,
+  .trofeo-halo {
+    display: none;
+  }
+
+  .trofeo-sprite,
+  .trofeo-tarjeta,
+  .trofeo-fondo {
+    animation: none;
+  }
+}

@@ -1,13 +1,19 @@
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { DIFICULTADES, NOMBRE_DIFICULTAD } from '../data/temas';
 import { useProgreso } from '../context/ProgresoContext';
-import { useAudio } from '../context/AudioContext';
+import { useRecompensas } from '../context/RecompensasContext';
 import { Ruta } from './Ruta';
+import { Insignia } from './Insignia';
+import { useAudio } from '../context/AudioContext';
 import './RutaNiveles.css';
 
 export function RutaNiveles({ temaId }) {
   const { estaDesbloqueado, obtenerResultado, esNivelMarcado, marcarNivelCompletado } = useProgreso();
   const { playSfx } = useAudio();
+  const { celebrarInsignia } = useRecompensas();
+  // Un hueco por dificultad: es el sitio al que vuela la estrella.
+  const slotsInsignia = useRef({});
 
   // 'bloqueado': el nivel anterior no se ha aprobado/exonerado todavía.
   // 'disponible': desbloqueado, pero el estudiante aún no aprobó su quiz.
@@ -31,8 +37,13 @@ export function RutaNiveles({ temaId }) {
   })();
 
   function manejarMarcarCompletado(dificultad) {
-    playSfx('desbloqueo');
     marcarNivelCompletado(temaId, dificultad);
+    // La insignia del nivel solo existe una vez marcado: se mide su posición
+    // en el frame siguiente, cuando React ya la pintó, para que la estrella
+    // aterrice justo encima de ella.
+    requestAnimationFrame(() => {
+      celebrarInsignia('estrella', slotsInsignia.current[dificultad]);
+    });
   }
 
   const nodos = estados.map(({ dificultad, resultado, estado }) => ({
@@ -75,13 +86,23 @@ export function RutaNiveles({ temaId }) {
           </div>
         )}
         {estado === 'completado' && (
-          <Link
-            to={`/tema/${temaId}/${dificultad}`}
-            className="nivel-boton nivel-boton--secundario"
-            onClick={() => playSfx('click')}
-          >
-            Repasar nivel
-          </Link>
+          <div className="nivel-acciones">
+            <Link
+              to={`/tema/${temaId}/${dificultad}`}
+              className="nivel-boton nivel-boton--secundario"
+              onClick={() => playSfx('click')}
+            >
+              Repasar nivel
+            </Link>
+            <span
+              className="nivel-insignia"
+              ref={(elemento) => {
+                slotsInsignia.current[dificultad] = elemento;
+              }}
+            >
+              <Insignia tipo="estrella" tamano={26} titulo="Nivel completado" />
+            </span>
+          </div>
         )}
       </div>
     ),

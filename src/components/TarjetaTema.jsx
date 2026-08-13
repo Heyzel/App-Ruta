@@ -1,7 +1,16 @@
 import { useNavigate } from 'react-router-dom';
+import { Insignia } from './Insignia';
 import './TarjetaTema.css';
 
-export function TarjetaTema({ tema, numero, marcado, opcional, puedeMarcar, onMarcarCompletado }) {
+export function TarjetaTema({
+  tema,
+  numero,
+  marcado,
+  opcional,
+  puedeMarcar,
+  onMarcarCompletado,
+  refInsignia,
+}) {
   const navigate = useNavigate();
   const irATema = () => navigate(`/tema/${tema.id}`);
 
@@ -24,7 +33,16 @@ export function TarjetaTema({ tema, numero, marcado, opcional, puedeMarcar, onMa
       {(opcional || marcado) && (
         <div className="tarjeta-tema-etiquetas">
           {opcional && <span className="tarjeta-tema-badge tarjeta-tema-badge--opcional">Opcional</span>}
-          {marcado && <span className="tarjeta-tema-badge tarjeta-tema-badge--completado">✓ Completado</span>}
+          {marcado && (
+            <>
+              <span className="tarjeta-tema-badge tarjeta-tema-badge--completado">✓ Completado</span>
+              {/* Sitio de la medalla del tema y destino del sprite que vuela
+                  al marcarlo como completado (ver CapaRecompensas). */}
+              <span className="tarjeta-tema-insignia" ref={refInsignia}>
+                <Insignia tipo="medalla" tamano={26} titulo="Tema completado" />
+              </span>
+            </>
+          )}
         </div>
       )}
 

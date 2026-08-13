@@ -28,15 +28,24 @@ El punto de entrada monta los providers en este orden:
 ```
 <BrowserRouter>
   <ProgresoProvider>
-    <App />
+    <AudioProvider>
+      <RecompensasProvider>
+        <App />
+      </RecompensasProvider>
+    </AudioProvider>
   </ProgresoProvider>
 </BrowserRouter>
 ```
 
-`App.jsx` define las rutas con `react-router-dom` y monta dos componentes **globales** que se renderizan en todas las páginas (excepto `/admin`):
+El orden importa: `RecompensasProvider` usa `playSfx` de `AudioProvider`, que a su vez no depende del progreso.
+
+`App.jsx` define las rutas con `react-router-dom` y monta componentes **globales** que se renderizan en todas las páginas (excepto `/admin`):
 
 - `BotonInicio` — botón flotante para volver a `/temas`.
 - `ChatbotPanel` — panel lateral derecho con Algorimi.
+- `ControlAudio` — música de fondo y volumen.
+- `ContadorInsignias` — contador de recompensas de la esquina superior derecha.
+- `CapaRecompensas` — capa de animaciones de celebración (ver sección 10).
 
 ### Mapa de rutas
 
@@ -193,9 +202,40 @@ Es independiente del resto del sistema — no pasa por la capa de servicios ni p
 
 ---
 
-## 9. Tooling: scripts y despliegue
+## 9. Recompensas: estrellas, medallas y trofeo
 
-### 9.1 Scripts Node (offline, fuera del navegador)
+**Archivos:** `src/data/insignias.js`, `src/context/RecompensasContext.jsx`, `src/components/CapaRecompensas.jsx`, `src/components/ContadorInsignias.jsx`, `src/components/Insignia.jsx`
+
+Tres recompensas, atadas a las marcas de completado que ya existían en `ProgresoContext`:
+
+| Recompensa | Se gana al | Total |
+|---|---|---|
+| ⭐ Estrella | marcar un nivel como completado (`RutaNiveles`) | 27 (9 temas × 3 niveles) |
+| 🥇 Medalla | marcar un tema como completado (`TarjetaTema` en `Inicio`) | 9 |
+| 🏆 Trofeo | tener los 9 temas marcados | 1 |
+
+**No se lleva un contador aparte.** `contarInsignias(progreso)` deriva los tres números de `nivelesMarcados` y `temasMarcados`, así que los niveles exonerados por el examen de suficiencia también suman y "Comenzar de nuevo" reinicia el contador sin lógica extra. Los totales salen de `TEMAS.length × DIFICULTADES.length`: agregar un tema actualiza el contador solo.
+
+Flujo de una celebración:
+
+```
+Botón "Marcar completado"
+  → marcarNivelCompletado / marcarTemaCompletado   [ProgresoContext → localStorage]
+  → requestAnimationFrame: se mide el hueco de la insignia ya pintada
+  → celebrarInsignia(tipo, elemento)                [RecompensasContext]
+      → playSfx('recompensa')                       [AudioContext → sintetizadorAudio]
+      → añade un "vuelo" que CapaRecompensas anima del centro al hueco
+```
+
+El sprite vuela con una animación CSS que interpola hacia `--destino-x` / `--destino-y` (las coordenadas medidas del hueco), por eso aterriza justo encima de la insignia fija. El trofeo no vuela: `Inicio` detecta la ruta completa en un efecto y abre el modal de `CapaRecompensas` con confeti y el sfx `'trofeo'` (fanfarria + aplausos sintetizados). La marca `trofeoCelebrado` del progreso hace que ese modal salga una sola vez.
+
+Los sprites viven en `public/insignias/` y se declaran en `src/data/insignias.js`.
+
+---
+
+## 10. Tooling: scripts y despliegue
+
+### 10.1 Scripts Node (offline, fuera del navegador)
 
 **Carpeta:** `scripts/`
 
@@ -204,7 +244,7 @@ Es independiente del resto del sistema — no pasa por la capa de servicios ni p
 
 Se ejecutan con `npm run seed` / `npm run db:limpiar`, nunca desde la app en producción.
 
-### 9.2 Build y despliegue
+### 10.2 Build y despliegue
 
 - `vite build` genera el bundle estático.
 - Vercel sirve ese bundle; `vercel.json` y `public/_redirects` reescriben cualquier ruta hacia `index.html` para que React Router pueda manejar rutas profundas (p. ej. recargar `/tema/variables/principiante` no debe dar 404).
