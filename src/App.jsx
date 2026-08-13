@@ -5,6 +5,7 @@ import { FondoAnimado } from './components/FondoAnimado';
 import { ControlAudio } from './components/ControlAudio';
 import { ContadorInsignias } from './components/ContadorInsignias';
 import { CapaRecompensas } from './components/CapaRecompensas';
+import './App.css';
 import { Bienvenida } from './pages/Bienvenida';
 import { Inicio } from './pages/Inicio';
 import { ExamenSuficiencia } from './pages/ExamenSuficiencia';
@@ -21,10 +22,12 @@ function App() {
   return (
     <>
       <FondoAnimado />
-      <BotonInicio />
+      <div className="barra-superior-movil">
+        <BotonInicio />
+        <ContadorInsignias />
+      </div>
       <ChatbotPanel />
       <ControlAudio />
-      <ContadorInsignias />
       <Routes>
         <Route path="/" element={<Bienvenida />} />
         <Route path="/temas" element={<Inicio />} />

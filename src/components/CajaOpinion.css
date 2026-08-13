@@ -95,6 +95,18 @@
   }
 }
 
+/* En la vista de un tema, vista de teléfono: este botón vive dentro de
+   .tema-fila-acciones, junto al control de música, en vez de flotar en la
+   esquina inferior izquierda (ver Tema.jsx / Tema.css). */
+@media (max-width: 480px) {
+  .tema-fila-acciones .caja-opinion-boton,
+  .tema-fila-acciones .caja-opinion-tooltip-envoltura {
+    position: relative;
+    bottom: auto;
+    left: auto;
+  }
+}
+
 .caja-opinion-panel {
   position: fixed;
   top: 0;

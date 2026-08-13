@@ -9,7 +9,8 @@
    porque Inicio.jsx ya muestra la copia in-line (--fila) junto al botón de
    examen de suficiencia. En pantallas más grandes no cambia nada. */
 @media (max-width: 480px) {
-  .control-audio-envoltura--cartelera {
+  .control-audio-envoltura--cartelera,
+  .control-audio-envoltura--tema-detalle {
     display: none;
   }
 }

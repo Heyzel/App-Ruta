@@ -8,3 +8,30 @@
   opacity: 0.8;
   margin-bottom: 1.5rem;
 }
+
+/* Envoltura de música + opinión. En pantallas grandes no debe alterar el
+   layout: display:contents la saca del flujo y sus hijos siguen flotando
+   (position: fixed) como siempre. Solo en vista de teléfono se convierte en
+   una fila horizontal embebida antes de "Elige un nivel de dificultad" (ver
+   overrides de posición en ControlAudio.css / CajaOpinion.css). */
+.tema-fila-acciones {
+  display: contents;
+}
+
+@media (max-width: 480px) {
+  .tema-fila-acciones {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Título del propedéutico de aritmética: en vista de teléfono se reduce para
+   que quede en dos líneas ("Propedéutico" / "de aritmética") en vez de tres. */
+@media (max-width: 480px) {
+  .tema-titulo-propedeutico {
+    font-size: 1.30rem;
+  }
+}

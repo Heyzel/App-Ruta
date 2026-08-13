@@ -48,5 +48,16 @@ export function ControlAudio() {
   // suficiencia (ver .control-audio-envoltura--fila en ControlAudio.css).
   const enCartelera = location.pathname === '/temas';
 
-  return <BotonAudio className={enCartelera ? 'control-audio-envoltura--cartelera' : ''} />;
+  // En la vista de un tema (no sus subrutas de dificultad/juego/quiz),
+  // vista de teléfono: ídem, Tema.jsx muestra la copia in-line en
+  // .tema-fila-acciones.
+  const enTemaDetalle = /^\/tema\/[^/]+$/.test(location.pathname);
+
+  const claseOculta = enCartelera
+    ? 'control-audio-envoltura--cartelera'
+    : enTemaDetalle
+      ? 'control-audio-envoltura--tema-detalle'
+      : '';
+
+  return <BotonAudio className={claseOculta} />;
 }
