@@ -178,6 +178,18 @@ export function Inicio() {
             )}
           </Link>
 
+          {/* Playground de C++: reutiliza el estilo del botón de examen para
+              que la fila quede homogénea (en teléfono ambos ocultan su texto y
+              quedan como iconos, ver Inicio.css). */}
+          <Link
+            to="/practica"
+            className="examen-suficiencia-boton"
+            title="Escribe y ejecuta código C++ libremente"
+          >
+            <span className="examen-suficiencia-icono" aria-hidden="true">💻</span>
+            <span className="examen-suficiencia-texto">Practica C++</span>
+          </Link>
+
           <CajaOpinionPlataforma puedeOpinar={puedeOpinarPlataforma} />
         </div>
       </header>

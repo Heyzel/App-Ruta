@@ -53,6 +53,7 @@ El orden importa: `RecompensasProvider` usa `playSfx` de `AudioProvider`, que a 
 |---|---|---|
 | `/` | `Bienvenida` | Pantalla de entrada: objetivo de la plataforma, flujo recomendado, campo de nombre y botón "Comenzar" |
 | `/temas` | `Inicio` | Cartelera de temas (incluye el tema 0) |
+| `/practica` | `Practica` | Playground: escribir y ejecutar código C++ real |
 | `/tema/:temaId` | `Tema` | Selector de dificultad |
 | `/tema/:temaId/:dificultad` | `Contenidos` | Lista de contenidos del nivel |
 | `/tema/:temaId/:dificultad/juego/:indice` | `JuegoDesafio` | Pantalla previa a un contenido de tipo juego |
@@ -199,6 +200,45 @@ Flujo de agregación (panel admin, pestaña **Estudiantes**):
 **Archivo:** `src/components/ChatbotPanel.jsx`
 
 Es independiente del resto del sistema — no pasa por la capa de servicios ni por Supabase. Monta el web component `<zapier-interfaces-chatbot-embed>` con el id configurado en `VITE_ZAPIER_CHATBOT_ID`, dentro de un panel lateral derecho. Si la variable de entorno no está definida, muestra un aviso en vez del chatbot.
+
+---
+
+## 8.1 Servicio externo: Wandbox (ejecución de código C++)
+
+**Archivos:** `src/services/ejecucionCodigo.js`, `src/components/EditorCodigo.jsx`, `src/pages/Practica.jsx`
+
+La página `/practica` es un **playground**: el estudiante escribe C++, lo ejecuta y ve la salida real. La compilación ocurre en la API pública de [Wandbox](https://wandbox.org) (g++ 13.2.0, C++17), llamada **directamente desde el navegador**: no hay función serverless de por medio porque Wandbox responde con `Access-Control-Allow-Origin: *` y no exige clave de API. Por eso tampoco hay variables de entorno que configurar ni costo asociado.
+
+Es el único servicio que no encaja en el patrón de la sección 5 (no habla con Supabase ni con `src/data/`), pero sí respeta el contrato de degradación: `ejecutarCodigo()` **nunca lanza** — ante un fallo de red, un servicio caído o un bucle infinito (corte a los 20 s con `AbortController`) devuelve `{ ok: false, mensaje }` y la UI muestra un aviso. El resto de la aplicación funciona igual si Wandbox no está disponible.
+
+Detalle de la respuesta de Wandbox que conviene recordar: cuando la **compilación falla**, la respuesta **no incluye la clave `program_output`**. Ese es el criterio para distinguir un error de compilación de un fallo en ejecución — no sirve mirar `compiler_error` (los *warnings* también lo llenan) ni `status` (que en una ejecución correcta es el código de salida del programa).
+
+El playground está **deliberadamente aislado**: no toca `ProgresoContext`, ni `localStorage`, ni las métricas, ni las recompensas. Nada de lo que se haga ahí afecta a las notas.
+
+> **Por qué no está dentro del cuestionario:** los fragmentos de `pregunta.codigo` pertenecen a preguntas de tipo `numerica` cuyo enunciado pide calcular el resultado mentalmente. Un botón de "ejecutar" en `Quiz.jsx` le daría la respuesta al estudiante y anularía la evaluación.
+
+Si Wandbox dejara de estar disponible, el reemplazo (por ejemplo la API de Compiler Explorer) queda contenido en `src/services/ejecucionCodigo.js`; ningún otro archivo del proyecto se entera.
+
+### Seguridad del playground
+
+El punto de partida es que **el código del estudiante nunca se ejecuta en nuestra infraestructura ni en su propio navegador**: se envía como texto a Wandbox, que lo compila y lo ejecuta en un contenedor desechable suyo, y de vuelta solo llega texto. Eso deja fuera de alcance las categorías de ataque que preocuparían en un compilador local o embebido:
+
+| Riesgo | Por qué no aplica |
+|---|---|
+| Robar o alterar el progreso del estudiante | El programa corre en un servidor remoto: no tiene acceso al DOM ni a `localStorage`. |
+| Falsear notas o desbloquear niveles | La página no importa `ProgresoContext` ni servicio alguno de Supabase; no hay ruta de escritura. |
+| XSS desde la salida del programa | La salida se pinta con `<pre>{texto}</pre>`; React escapa el contenido. En todo el proyecto no se usa `dangerouslySetInnerHTML` (comprobado). Un programa que imprima `<script>` muestra ese texto literal. |
+| Congelar la pestaña con una salida enorme | Wandbox trunca la salida en 128 KB; además el servicio recorta a 200 KB por si ese límite cambiara. |
+| Colgar la interfaz con un bucle infinito | El bucle consume CPU remota, no local. El cliente corta a los 20 s con `AbortController`; Wandbox mata el proceso a los ~35 s (status 137). |
+| Romper el render con una respuesta inesperada | Todos los campos que llegan de la API se normalizan a texto antes de entregarse a la UI. |
+| Fuga de una clave de API | No hay ninguna: la API es pública y anónima. |
+| Compromiso de la cadena de suministro | No se añadió ninguna dependencia npm. |
+
+Lo que sí conviene tener presente, y no es un fallo de la integración sino una propiedad del servicio:
+
+- **El contenedor de Wandbox no es una jaula estricta**: el código puede leer archivos del sistema de ese contenedor efímero (p. ej. `/etc/passwd`) y **tiene salida a internet**. Nada de eso toca datos nuestros ni del estudiante, y es exactamente la misma capacidad que cualquiera tiene entrando a wandbox.org directamente, así que la plataforma no habilita nada nuevo. Pero significa que no debe tratarse como un entorno de ejecución confiable para nada sensible.
+- **El código que escribe el estudiante viaja a un tercero.** No se envía ningún dato personal automáticamente (ni el nombre ni el progreso), pero conviene mencionarlo si la tesis documenta el tratamiento de datos.
+- **Llamar desde el navegador y no desde un proxy reparte el riesgo de bloqueo**: si alguien abusara del servicio, Wandbox bloquearía la IP de ese estudiante. Con una función serverless de por medio, todo el tráfico saldría de una única IP de Vercel y un bloqueo dejaría la función inservible para todos.
 
 ---
 

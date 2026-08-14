@@ -2,7 +2,12 @@
   "permissions": {
     "allow": [
       "Bash(npm run *)",
-      "Bash(node -e ' *)"
+      "Bash(node -e ' *)",
+      "Bash(curl -s -m 25 https://wandbox.org/api/list.json)",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\).on\\('end',\\(\\)=>{const l=JSON.parse\\(d\\).filter\\(c=>c.language==='C++'&&/^gcc/.test\\(c.name\\)\\).map\\(c=>c.name+' | '+c.version\\);console.log\\(l.slice\\(0,14\\).join\\('\\\\n'\\)\\);console.log\\('total C++ gcc:',l.length\\);}\\)\")",
+      "Bash(curl -s *)",
+      "Bash(curl -s -m 25 -X POST https://wandbox.org/api/compile.json -H \"Content-Type: application/json\" -d '{\"code\":\"int main\\(\\){int*p=nullptr;*p=1;}\",\"compiler\":\"gcc-13.2.0\",\"options\":\"warning,c++17\"}')",
+      "Bash(node --input-type=module -e ' *)"
     ]
   }
 }
