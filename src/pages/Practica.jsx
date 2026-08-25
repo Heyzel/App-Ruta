@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { EditorCodigo } from '../components/EditorCodigo';
+import { BotonAudio } from '../components/ControlAudio';
 import './Practica.css';
 
 // Ejemplos para no empezar con la página en blanco. Están alineados con los
@@ -112,6 +113,14 @@ export function Practica() {
         verás los mismos mensajes de error que en un compilador real. Nada de lo que hagas aquí afecta
         a tu progreso ni a tus notas: es un espacio para experimentar sin miedo a equivocarte.
       </p>
+
+      {/* En vista de teléfono, el control de música se muestra aquí arriba en
+          vez de flotar en la esquina inferior izquierda, igual que en la vista
+          de un tema (ver ControlAudio.css / Tema.jsx). En pantallas más
+          grandes no cambia nada: sigue flotando donde siempre. */}
+      <div className="practica-fila-acciones">
+        <BotonAudio className="control-audio-envoltura--fila" />
+      </div>
 
       <label className="practica-plantillas">
         <span>Cargar un ejemplo</span>

@@ -53,11 +53,17 @@ export function ControlAudio() {
   // .tema-fila-acciones.
   const enTemaDetalle = /^\/tema\/[^/]+$/.test(location.pathname);
 
+  // En el playground de C++, vista de teléfono: ídem, Practica.jsx muestra la
+  // copia in-line en .practica-fila-acciones.
+  const enPractica = location.pathname === '/practica';
+
   const claseOculta = enCartelera
     ? 'control-audio-envoltura--cartelera'
     : enTemaDetalle
       ? 'control-audio-envoltura--tema-detalle'
-      : '';
+      : enPractica
+        ? 'control-audio-envoltura--practica'
+        : '';
 
   return <BotonAudio className={claseOculta} />;
 }

@@ -117,11 +117,12 @@ export async function ejecutarCodigo({ codigo, entrada = '' }) {
 
     const datos = await resp.json();
 
-    // Cuando la compilación falla, Wandbox NO incluye la clave `program_output`.
-    // Ese es el criterio fiable: no sirve mirar `compiler_error` (los warnings
-    // también lo llenan) ni `status` (en una ejecución correcta es el código de
-    // salida del programa: 0 al terminar bien, 139 en un segfault, etc.).
-    const compilo = Object.hasOwn(datos, 'program_output');
+    // Ningún campo dice si el programa compiló: `compiler_error` se llena
+    // igual con warnings que con errores, `status` es el código de salida del
+    // programa cuando sí se ejecutó, y `program_output` siempre viene (vacío
+    // tanto si no compiló como si compiló y no imprimió nada). Se resuelve
+    // leyendo el texto de g++, que marca errores con `error:`/`fatal error:`.
+    const compilo = !/(^|\s)(fatal error|error):/m.test(datos.compiler_error || '');
 
     return {
       ok: true,

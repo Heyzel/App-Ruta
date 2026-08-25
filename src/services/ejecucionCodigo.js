@@ -31,6 +31,23 @@ function comoTexto(valor) {
   return String(valor).slice(0, MAX_SALIDA);
 }
 
+// Distinguir "no compiló" de "compiló y falló al ejecutarse" es más sutil de lo
+// que parece, porque ninguno de los campos de la respuesta lo dice directamente:
+//
+// - `compiler_error` se llena tanto con errores como con simples warnings.
+// - `status` es el código de salida del programa cuando sí llegó a ejecutarse
+//   (0 al terminar bien, 139 en un segfault…), así que un `1` puede significar
+//   tanto "no compiló" como "el programa hizo return 1".
+// - `program_output` siempre viene, vacío en ambos casos.
+//
+// El caso que desempata a mano es un programa con un warning que además hace
+// `return 1` sin imprimir nada: es indistinguible de un fallo de compilación
+// mirando solo esos campos. Por eso se inspecciona el texto de g++, que marca
+// los errores con `error:` / `fatal error:` y los avisos con `warning:`.
+function tieneErroresDeCompilacion(mensajes) {
+  return /(^|\s)(fatal error|error):/m.test(mensajes);
+}
+
 export async function ejecutarCodigo({ codigo, entrada = '' }) {
   if (!codigo || !codigo.trim()) {
     return { ok: false, mensaje: 'Escribe algo de código antes de ejecutar.' };
@@ -62,21 +79,15 @@ export async function ejecutarCodigo({ codigo, entrada = '' }) {
 
     const datos = await resp.json();
 
-    // Cómo distinguir un error de compilación de un fallo en ejecución:
-    // cuando la compilación falla, Wandbox NO incluye la clave `program_output`
-    // en la respuesta. Si el programa llegó a ejecutarse la clave está presente
-    // (aunque venga vacía, como en un segfault). No sirve mirar `compiler_error`
-    // —los warnings también lo llenan— ni `status`, que en una ejecución
-    // correcta es el código de salida del programa.
-    const compilo = Object.hasOwn(datos, 'program_output');
+    const mensajesCompilador = comoTexto(datos.compiler_error);
 
     return {
       ok: true,
-      compilo,
+      compilo: !tieneErroresDeCompilacion(mensajesCompilador),
       salida: comoTexto(datos.program_output),
       errorEjecucion: comoTexto(datos.program_error),
-      // Con `compilo === true` esto son warnings; con `false`, los errores.
-      mensajesCompilador: comoTexto(datos.compiler_error),
+      // Si `compilo` es true esto son warnings; si es false, los errores.
+      mensajesCompilador,
       codigoSalida: comoTexto(datos.status),
     };
   } catch (err) {
