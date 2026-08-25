@@ -28,6 +28,13 @@
   font-family: inherit;
 }
 
+/* Fila del control de música: solo existe en vista de teléfono; en pantallas
+   más grandes `display: contents` la vuelve transparente y el widget flotante
+   de ControlAudio.jsx sigue haciendo su trabajo. */
+.practica-fila-acciones {
+  display: contents;
+}
+
 .practica-aviso-plantilla {
   margin: 0.4rem 0 1.25rem;
   font-size: 0.8rem;
@@ -41,5 +48,12 @@
 
   .pagina-practica h1 {
     font-size: 1.3rem;
+  }
+
+  .practica-fila-acciones {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
   }
 }

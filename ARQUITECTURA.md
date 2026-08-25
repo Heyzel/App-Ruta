@@ -211,7 +211,7 @@ La página `/practica` es un **playground**: el estudiante escribe C++, lo ejecu
 
 Es el único servicio que no encaja en el patrón de la sección 5 (no habla con Supabase ni con `src/data/`), pero sí respeta el contrato de degradación: `ejecutarCodigo()` **nunca lanza** — ante un fallo de red, un servicio caído o un bucle infinito (corte a los 20 s con `AbortController`) devuelve `{ ok: false, mensaje }` y la UI muestra un aviso. El resto de la aplicación funciona igual si Wandbox no está disponible.
 
-Detalle de la respuesta de Wandbox que conviene recordar: cuando la **compilación falla**, la respuesta **no incluye la clave `program_output`**. Ese es el criterio para distinguir un error de compilación de un fallo en ejecución — no sirve mirar `compiler_error` (los *warnings* también lo llenan) ni `status` (que en una ejecución correcta es el código de salida del programa).
+Detalle de la respuesta de Wandbox que conviene recordar: **ningún campo dice directamente si el programa llegó a compilar**. `compiler_error` se llena igual con errores que con simples *warnings*; `status` es el código de salida del programa cuando sí se ejecutó (0 al terminar bien, 139 en un segfault), así que un `1` puede significar tanto "no compiló" como "el programa hizo `return 1`"; y `program_output` siempre viene, vacío en ambos casos. El servicio lo resuelve inspeccionando el texto de g++, que marca los errores con `error:` / `fatal error:` y los avisos con `warning:`.
 
 El playground está **deliberadamente aislado**: no toca `ProgresoContext`, ni `localStorage`, ni las métricas, ni las recompensas. Nada de lo que se haga ahí afecta a las notas.
 

@@ -5,12 +5,14 @@
   z-index: 150;
 }
 
-/* En la cartelera de temas, vista de teléfono: se oculta el widget flotante
-   porque Inicio.jsx ya muestra la copia in-line (--fila) junto al botón de
-   examen de suficiencia. En pantallas más grandes no cambia nada. */
+/* Vista de teléfono: en la cartelera de temas, en el detalle de un tema y en
+   el playground de C++ se oculta el widget flotante porque esas páginas ya
+   muestran la copia in-line (--fila) arriba. En pantallas más grandes no
+   cambia nada. */
 @media (max-width: 480px) {
   .control-audio-envoltura--cartelera,
-  .control-audio-envoltura--tema-detalle {
+  .control-audio-envoltura--tema-detalle,
+  .control-audio-envoltura--practica {
     display: none;
   }
 }
