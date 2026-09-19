@@ -1,0 +1,195 @@
+.modal-lori-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.modal-lori {
+  width: 100%;
+  max-width: 460px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--color-superficie, #1e1e2f);
+  border: 1px solid var(--color-borde, #33334d);
+  border-radius: 14px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-lori-encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.modal-lori-encabezado h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.modal-lori-cerrar {
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.modal-lori-descripcion {
+  margin: 0;
+  opacity: 0.8;
+  font-size: 0.9rem;
+}
+
+.modal-lori-preguntas {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-lori-pregunta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--color-borde, #33334d);
+}
+
+.modal-lori-pregunta:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* Escala de puntuación LORI: botones 1-5 más N/A (no aplica). Los radios
+   reales quedan ocultos pero accesibles por teclado y lectores de pantalla. */
+.escala-lori {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.escala-lori legend {
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0;
+  margin-bottom: 0.2rem;
+}
+
+.escala-lori-opciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.escala-lori-opcion {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-width: 2.2rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-borde, #33334d);
+  background: var(--color-fondo, #101018);
+  color: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.escala-lori-opcion:hover {
+  border-color: var(--color-primario, #4f46e5);
+}
+
+.escala-lori-opcion--activa {
+  background: var(--color-primario, #4f46e5);
+  border-color: var(--color-primario, #4f46e5);
+  color: #fff;
+}
+
+.escala-lori-opcion--na {
+  min-width: 2.8rem;
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+.escala-lori-opcion--na.escala-lori-opcion--activa {
+  opacity: 1;
+}
+
+.escala-lori-opcion input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.escala-lori-opcion:focus-within {
+  outline: 2px solid var(--color-primario, #4f46e5);
+  outline-offset: 2px;
+}
+
+.modal-lori-dimension {
+  font-size: 0.72rem;
+  opacity: 0.6;
+  font-style: italic;
+}
+
+.modal-lori-textarea {
+  min-height: 80px;
+  padding: 0.7rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-borde, #33334d);
+  background: var(--color-fondo, #101018);
+  color: inherit;
+  font: inherit;
+  resize: vertical;
+}
+
+.modal-lori-error {
+  margin: 0;
+  color: var(--color-error, #ef4444);
+  font-size: 0.85rem;
+}
+
+.modal-lori-enviar {
+  padding: 0.7rem 1.1rem;
+  border-radius: 8px;
+  border: none;
+  background: var(--color-primario, #4f46e5);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+.modal-lori-enviar:hover:not(:disabled) {
+  background: var(--color-primario-hover, #4338ca);
+}
+
+.modal-lori-enviar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+  .modal-lori {
+    padding: 1.25rem;
+  }
+}

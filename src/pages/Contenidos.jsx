@@ -4,14 +4,21 @@ import { obtenerTema, NOMBRE_DIFICULTAD, DIFICULTADES } from '../data/temas';
 import { obtenerContenidos } from '../services/contenidos';
 import { useProgreso } from '../context/ProgresoContext';
 import { BotonContenido } from '../components/BotonContenido';
+import { ModalValoracionLori } from '../components/ModalValoracionLori';
 import './Contenidos.css';
 
 export function Contenidos() {
   const { temaId, dificultad } = useParams();
   const tema = obtenerTema(temaId);
-  const { estaDesbloqueado, actualizarUbicacion } = useProgreso();
+  const {
+    estaDesbloqueado,
+    actualizarUbicacion,
+    haEnviadoValoracionLori,
+    marcarValoracionLoriEnviada,
+  } = useProgreso();
   const [contenidos, setContenidos] = useState([]);
   const [cargandoContenidos, setCargandoContenidos] = useState(true);
+  const [valoracionAbierta, setValoracionAbierta] = useState(false);
 
   const rutaActual = `/tema/${temaId}/${dificultad}`;
 
@@ -42,6 +49,8 @@ export function Contenidos() {
   if (!estaDesbloqueado(temaId, dificultad)) {
     return <Navigate to={`/tema/${temaId}`} replace />;
   }
+
+  const yaValorado = haEnviadoValoracionLori(temaId, dificultad);
 
   return (
     <div className="pagina-contenidos">
@@ -75,9 +84,39 @@ export function Contenidos() {
           ))}
       </div>
 
-      <Link className="boton-responder-quiz" to={`/tema/${temaId}/${dificultad}/quiz`}>
-        Responder quiz →
-      </Link>
+      <div className="contenidos-acciones">
+        <Link className="boton-responder-quiz" to={`/tema/${temaId}/${dificultad}/quiz`}>
+          Responder quiz →
+        </Link>
+
+        {/* Cuestionario LORI sobre los contenidos del nivel: una sola
+            valoración por tema + dificultad (ver ProgresoContext). */}
+        {yaValorado ? (
+          <button type="button" className="boton-valorar-contenidos boton-valorar-contenidos--enviada" disabled>
+            ✓ ¡Gracias por calificar!
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="boton-valorar-contenidos"
+            onClick={() => setValoracionAbierta(true)}
+          >
+            ★ Califica los contenidos
+          </button>
+        )}
+      </div>
+
+      {valoracionAbierta && (
+        <ModalValoracionLori
+          temaId={temaId}
+          dificultad={dificultad}
+          onCerrar={() => setValoracionAbierta(false)}
+          onEnviada={() => {
+            marcarValoracionLoriEnviada(temaId, dificultad);
+            setValoracionAbierta(false);
+          }}
+        />
+      )}
     </div>
   );
 }

@@ -21,6 +21,7 @@ function estadoInicial() {
     examenPresentado: false,
     trofeoCelebrado: false,
     opinionesTemaEnviadas: [],
+    valoracionesLoriEnviadas: [],
     opinionPlataformaEnviada: false,
   };
 }
@@ -198,6 +199,27 @@ export function ProgresoProvider({ children }) {
     [setProgreso]
   );
 
+  // Valoración LORI de los contenidos de un nivel: se guarda una por
+  // tema + dificultad, con la misma clave `tema:dificultad` que los
+  // resultados del quiz.
+  const haEnviadoValoracionLori = useCallback(
+    (temaId, dificultad) =>
+      (progreso.valoracionesLoriEnviadas || []).includes(`${temaId}:${dificultad}`),
+    [progreso.valoracionesLoriEnviadas]
+  );
+
+  const marcarValoracionLoriEnviada = useCallback(
+    (temaId, dificultad) => {
+      setProgreso((prev) => {
+        const actuales = prev.valoracionesLoriEnviadas || [];
+        const clave = `${temaId}:${dificultad}`;
+        if (actuales.includes(clave)) return prev;
+        return { ...prev, valoracionesLoriEnviadas: [...actuales, clave] };
+      });
+    },
+    [setProgreso]
+  );
+
   const marcarOpinionPlataformaEnviada = useCallback(() => {
     setProgreso((prev) => ({ ...prev, opinionPlataformaEnviada: true }));
   }, [setProgreso]);
@@ -225,6 +247,8 @@ export function ProgresoProvider({ children }) {
       setNombreUsuario,
       haEnviadoOpinionTema,
       marcarOpinionTemaEnviada,
+      haEnviadoValoracionLori,
+      marcarValoracionLoriEnviada,
       marcarOpinionPlataformaEnviada,
       reiniciarProgreso,
     }),
@@ -243,6 +267,8 @@ export function ProgresoProvider({ children }) {
       setNombreUsuario,
       haEnviadoOpinionTema,
       marcarOpinionTemaEnviada,
+      haEnviadoValoracionLori,
+      marcarValoracionLoriEnviada,
       marcarOpinionPlataformaEnviada,
       reiniciarProgreso,
     ]
