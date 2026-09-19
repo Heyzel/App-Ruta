@@ -154,3 +154,40 @@ create policy "insertar_opiniones_plataforma" on opiniones_plataforma for insert
 
 drop policy if exists "borrar_opiniones_plataforma" on opiniones_plataforma;
 create policy "borrar_opiniones_plataforma" on opiniones_plataforma for delete using (true);
+
+-- Valoración LORI de los contenidos de un nivel (modal "Califica los
+-- contenidos" en /tema/:temaId/:dificultad). Cuestionario corto de 5 ítems,
+-- cada uno tomado de una dimensión del modelo LORI (Learning Object Review
+-- Instrument) y puntuado de 1 a 5:
+--   1. Calidad del contenido        (LORI 1)
+--   2. Alineación con los objetivos (LORI 2)
+--   3. Motivación                   (LORI 4)
+--   4. Diseño de la presentación    (LORI 5)
+--   5. Interacción y usabilidad     (LORI 6)
+-- Cada ítem se puntúa de 1 (muy deficiente) a 5 (excelente); igual que en el
+-- instrumento original, el estudiante puede responder "N/A" (no aplica), que
+-- aquí se guarda como null. Por eso las columnas de puntaje admiten null.
+-- Anónima: no se guarda el nombre del estudiante.
+create table if not exists valoraciones_lori (
+  id uuid primary key default gen_random_uuid(),
+  tema text not null,
+  dificultad text not null,
+  calidad_contenido smallint check (calidad_contenido between 1 and 5),
+  alineacion_objetivos smallint check (alineacion_objetivos between 1 and 5),
+  motivacion smallint check (motivacion between 1 and 5),
+  diseno_presentacion smallint check (diseno_presentacion between 1 and 5),
+  interaccion_usabilidad smallint check (interaccion_usabilidad between 1 and 5),
+  comentario text,
+  creado_en timestamptz default now()
+);
+
+alter table valoraciones_lori enable row level security;
+
+drop policy if exists "leer_valoraciones_lori" on valoraciones_lori;
+create policy "leer_valoraciones_lori" on valoraciones_lori for select using (true);
+
+drop policy if exists "insertar_valoraciones_lori" on valoraciones_lori;
+create policy "insertar_valoraciones_lori" on valoraciones_lori for insert with check (true);
+
+drop policy if exists "borrar_valoraciones_lori" on valoraciones_lori;
+create policy "borrar_valoraciones_lori" on valoraciones_lori for delete using (true);

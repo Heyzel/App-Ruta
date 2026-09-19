@@ -69,7 +69,7 @@ npm run seed
 Para vaciar los resultados de prueba antes de una demo:
 
 ```bash
-npm run db:limpiar          # vacía resultados, resultados_examen, consultas_contenido, opiniones_tema y opiniones_plataforma
+npm run db:limpiar          # vacía resultados, resultados_examen, consultas_contenido, opiniones_tema, opiniones_plataforma y valoraciones_lori
 ```
 
 ---

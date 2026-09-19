@@ -1,7 +1,8 @@
 // Ejecutar con: node scripts/limpiarBaseDatos.mjs
 // Vacía únicamente las tablas de datos generados por el uso de la plataforma
 // (resultados, resultados_examen, consultas_contenido, opiniones_tema,
-// opiniones_plataforma). Nunca toca `cuestionarios` ni `contenidos`.
+// opiniones_plataforma, valoraciones_lori). Nunca toca `cuestionarios` ni
+// `contenidos`.
 // Requiere que .env tenga VITE_SUPABASE_URL y VITE_SUPABASE_ANON_KEY definidos.
 // Nota: cada tabla necesita su política de delete de scripts/esquema.sql.
 import { createClient } from '@supabase/supabase-js';
@@ -49,6 +50,7 @@ async function limpiar() {
   await vaciar('consultas_contenido');
   await vaciar('opiniones_tema');
   await vaciar('opiniones_plataforma');
+  await vaciar('valoraciones_lori');
   console.log('Limpieza completada.');
 }
 
